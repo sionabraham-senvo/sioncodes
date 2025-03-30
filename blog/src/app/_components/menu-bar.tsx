@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
+import {createUrl} from "@/lib/url";
 
 interface MenuBarProps {
   items?: string[];
@@ -39,15 +40,14 @@ const MenuBar = ({ items = ['Home', 'About'] }: MenuBarProps) => {
     dropdownItems = allItems.slice(MAX_VISIBLE - 2, allItems.length - 1);
   }
 
-  // Generate the correct URL for each item
-  const getItemUrl = (item: string): string => {
-    // Special cases
-    if (item.toLowerCase() === 'home') return '/';
-    if (item.toLowerCase() === 'about') return '/about';
+const getItemUrl = (item: string): string => {
 
-    // All other items are tags
-    return `/tags/${item.toLowerCase()}`;
-  };
+  if (item.toLowerCase() === 'home') return createUrl('/');
+  if (item.toLowerCase() === 'about') return createUrl('/about');
+
+  // All other items are tags
+  return createUrl(`/tags/${item.toLowerCase()}`);
+};
 
   // Close dropdown when clicking outside
   useEffect(() => {
