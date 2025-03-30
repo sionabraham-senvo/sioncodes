@@ -135,6 +135,14 @@ created in RAM and is destroyed when the tests are finished. This has a number o
 - **Isolation**: Removing data from the database is significantly faster, as you don't have to wait for 
   transactions or locks.
 
+We can use the `testing.postgresql` library to help us achieve this!
+
+```shell
+pip install testing.postgresql
+poetry add -D testing.postgresql
+uv add testing.postgresql --dev
+```
+
 ```python
 import pytest
 import testing.postgresql
