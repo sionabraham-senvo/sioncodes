@@ -2,6 +2,7 @@ import { Post } from "@/interfaces/post";
 import fs from "fs";
 import matter from "gray-matter";
 import { join } from "path";
+import {getImagePath} from "@/lib/url";
 
 const postsDirectory = join(process.cwd(), "_posts");
 
@@ -14,6 +15,18 @@ export function getPostBySlug(slug: string) {
   const fullPath = join(postsDirectory, `${realSlug}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
+
+  if (data.coverImage) {
+    data.coverImage = getImagePath(data.coverImage);
+  }
+
+  if (data.author && data.author.picture) {
+    data.author.picture = getImagePath(data.author.picture);
+  }
+
+  if (data.ogImage && data.ogImage.url) {
+    data.ogImage.url = getImagePath(data.ogImage.url);
+  }
 
   return { ...data, slug: realSlug, content } as Post;
 }

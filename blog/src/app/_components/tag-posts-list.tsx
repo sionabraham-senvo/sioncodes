@@ -27,7 +27,7 @@ export function TagPostsList({ posts, tag }: Props) {
                className="flex flex-col md:flex-row gap-6 p-4 rounded-lg"
                style={{ backgroundColor: "var(--background)", borderLeft: "4px solid var(--accent)" }}>
             <div className="md:w-1/3">
-              <CoverImage slug={post.slug} title={post.title} src={getImagePath(post.coverImage)} />
+              <CoverImage slug={post.slug} title={post.title} src={post.coverImage} />
             </div>
             <div className="md:w-2/3">
               <h3 className="text-2xl md:text-3xl font-bold mb-2 leading-snug">
