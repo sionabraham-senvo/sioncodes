@@ -7,7 +7,7 @@ from src.domains.user import UserCreate, UserUpdate
 from src.repositories.postgresql.models import Base
 from src.repositories.postgresql.user_repository import PostgreSQLUserRepository
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def postgresql_session():
     with testing.postgresql.Postgresql() as postgresql:
         engine = create_engine(postgresql.url())
