@@ -2,13 +2,13 @@
 title: "Lightning Fast PyTests with PostgreSQL & SQLAlchemy"
 excerpt: "Setting up your PostgreSQL database for fast tests can be a challenge. This guide will show you how to set 
 up your database for lightning fast tests using pytest and testing.postgresql."
-coverImage: "/assets/blog/hello-world/cover.png"
+coverImage: "/assets/blog/fast-postgresql-tests/cover.png"
 date: "2025-03-30T12:39:07.322Z"
 author:
   name: Siôn Abraham
   picture: "/assets/blog/authors/sion.jpg"
 ogImage:
-  url: "/assets/blog/hello-world/cover.jpg"
+  url: "/assets/blog/fast-postgresql-tests/cover.jpg"
 tags: 
   - Python
   - SQLAlchemy
@@ -18,29 +18,30 @@ tags:
 
 > **Tip**
 > 
-> This blog uses code from the tutorial.
+> This article uses code excerpts from my Repository Pattern tutorial, available [here](https://github.com/sionabraham-senvo/sioncodes/tree/main/examples/repository_pattern) on GitHub.
 
 ##  Commitment is Thieving Time From You!
 
 SQLAlchemy's session management can be a bit tricky to wrap your head around, and is very often the source of 
 performance issues.
 
-When you call `commit()`, SQLAlchemy flushes all pending changes to the database, this means that it will execute 
-all the SQL statements that have been queued up in the session. and write them to the storage device your database 
+When you call `commit()`, SQLAlchemy flushes all pending changes to the database, meaning that it will execute 
+all the SQL statements that have been queued up in the session, and write them to the storage device your database 
 is using. So the answer is simple: use a faster storage device! 
 
 Not quite, but close.
 
 We normally want to `commit()` at the end of a transaction block, for example when we are exiting an endpoint, or when 
-our script is finished. This means we bundle all the changes we made in the session into a single transaction, 
+a script is finished. This means we bundle all the changes made in the session into a single transaction, 
 so that any errors that occur during the transaction will cause the entire transaction to be rolled back. This keeps 
-our database free from data that is only partially written.
+our database free from data corruption, by preventing only partial writes.
 
 ###  Flush Before Commit
 
 When you call `flush()`, SQLAlchemy sends all pending changes to the memory of your database, but does not commit them.
 This means that the changes are not yet written to the storage device, and can be rolled back if an error occurs.
 
+We can very simply replace `commit()` with `flush()` in our code, as seen in the following example:
 
 ```python
 from sqlalchemy.orm import Session
@@ -68,7 +69,8 @@ class PostgreSQLUserRepository(PostgreSQLRepository[UserTable, UserCreate, UserU
         return new_user.to_domain()
 ```
 
-We can then encapsulate the session in a context manager:
+We can then encapsulate the session in a context manager, which will let us automatically close the session when we are
+done with it:
 
 ```python
 
@@ -101,10 +103,13 @@ def get_db_session() -> Session:
         session.close()
 ```
 
-The key to this is the keyword `yield`, which allows us to return the session to the function which created it. 
+The power of this pattern comes via keyword `yield`, which allows us to pass the generated session to the caller. 
+Once the caller is done with what it needs to do, it will return to the context manager, which will then handle the 
+session depending on the outcome of the code that was executed.
 
 What is an interesting side effect of this process of trying to increase the performance of our tests, is that we are 
-also increasing the performance of our application! 
+also increasing the performance of our application! By moving the `commit()` to the end of the transaction, our 
+routes gain a small performance boost.
 
 Our tests really do all the speaking for our application!
 
@@ -122,9 +127,9 @@ great for running a local development instance, but not so great for testing for
 
 ###  In Memory Databases
 
-The answer for tests is to use a disposable in-memory database! This means that the database is 
+The answer lies in the use of disposable in-memory database! This means that the database is 
 created in RAM and is destroyed when the tests are finished. This has a number of advantages:
-- **Speed**: RAM is significantly faster than even the fastest SSDs.
+- **Speed**: RAM is significantly faster than even the fastest SSDs, let alone HDDs.
 - **Reduced Complexity**: You don't have to worry about starting and stopping a container, or managing network 
   connections.
 - **Isolation**: Removing data from the database is significantly faster, as you don't have to wait for 
@@ -159,6 +164,48 @@ setting up and tearing down the database for each test.
 In `db_session`, we are creating a new session for each test, and rolling back any changes made to the database no 
 matter the outcome of the test. This means that we can run our tests in isolation, and not worry about any side effects
 from other tests. This is scoped to the function, meaning that it will be created once per test function.
+
+##  Results
+
+```shell
+============================= test session starts ==============================
+collecting ... collected 11 items
+
+test_user_repository.py::test_list_users_empty 
+test_user_repository.py::test_list_users_with_data 
+test_user_repository.py::test_get_user 
+test_user_repository.py::test_get_user_not_found 
+test_user_repository.py::test_delete_user 
+test_user_repository.py::test_delete_user_not_found 
+test_user_repository.py::test_create_new_user 
+test_user_repository.py::test_update_user 
+test_user_repository.py::test_update_user_not_found 
+test_user_repository.py::test_patch_user 
+test_user_repository.py::test_patch_user_not_found 
+
+======================= 11 passed, 0 warnings in 1.30s =========================
+```
+
+vs
+
+```shell
+============================= test session starts ==============================
+collecting ... collected 11 items
+
+test_user_repository.py::test_list_users_empty 
+test_user_repository.py::test_list_users_with_data 
+test_user_repository.py::test_get_user 
+test_user_repository.py::test_get_user_not_found 
+test_user_repository.py::test_delete_user 
+test_user_repository.py::test_delete_user_not_found 
+test_user_repository.py::test_create_new_user 
+test_user_repository.py::test_update_user 
+test_user_repository.py::test_update_user_not_found 
+test_user_repository.py::test_patch_user 
+test_user_repository.py::test_patch_user_not_found 
+
+======================= 11 passed, 0 warnings in 8.45s =========================
+```
 
 ##  Conclusion
 

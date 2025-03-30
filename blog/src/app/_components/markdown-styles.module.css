@@ -28,27 +28,27 @@
 .callout-note,
 .callout-warning,
 .callout-tip {
-  @apply p-4 my-6 border-l-4 rounded;
+  @apply p-4 my-6 border-l-4 rounded shadow-sm;
 }
 
 .callout-note {
-  @apply border-blue-500 bg-blue-50;
+  @apply border-indigo-500 bg-indigo-50 text-indigo-900;
 }
 
 .callout-warning {
-  @apply border-amber-500 bg-amber-50;
+  @apply border-orange-500 bg-orange-50 text-orange-900;
 }
 
 .callout-tip {
-  @apply border-emerald-500 bg-emerald-50;
+  @apply border-teal-500 bg-teal-50 text-teal-900;
 }
 
 .callout-heading {
-  @apply mt-0 font-semibold mb-2;
+  @apply mt-0 font-bold mb-2;
 }
 
 .callout-note .callout-heading strong,
 .callout-warning .callout-heading strong,
 .callout-tip .callout-heading strong {
-  @apply block mb-2;
+  @apply block mb-2 text-lg;
 }

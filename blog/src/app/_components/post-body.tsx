@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import hljs from "highlight.js";
-import "highlight.js/styles/github.css";
+import "highlight.js/styles/pojoaque.css";
 import markdownStyles from "./markdown-styles.module.css";
 
 type Props = {
