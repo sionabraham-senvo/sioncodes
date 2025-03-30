@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  // Required for GitHub Pages which serves content from a subdirectory
   basePath: process.env.NODE_ENV === 'production' ? '/sioncodes' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/sioncodes/' : '',
+  trailingSlash: true,
   images: {
     unoptimized: true, // GitHub Pages doesn't support Next.js Image Optimization
   },
