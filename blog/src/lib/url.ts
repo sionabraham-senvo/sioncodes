@@ -10,7 +10,14 @@ export function createUrl(path: string) {
 }
 
 export function getImagePath(path: string) {
-  const basePath = process.env.NODE_ENV === 'production' ? '/sioncodes' : '';
+  const basePath = getBasePath();
+  // Clean the path and ensure it doesn't already contain the base path
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
+
+  // Avoid duplicating the base path
+  if (basePath && cleanPath.startsWith(basePath)) {
+    return cleanPath;
+  }
+
   return `${basePath}${cleanPath}`;
 }
