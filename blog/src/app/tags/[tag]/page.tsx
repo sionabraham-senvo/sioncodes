@@ -3,16 +3,15 @@ import { getAllPosts } from "@/lib/api";
 import Container from "@/app/_components/container";
 import { Intro } from "@/app/_components/intro";
 import { TagPostsList } from "@/app/_components/tag-posts-list";
-import MenuBar from "@/app/_components/menu-bar";
 
 interface TagPageProps {
-  params: {
+  params: Promise<{
     tag: string;
-  };
+  }>;
 }
 
-export default function TagPage({ params }: TagPageProps) {
-  const { tag } = params;
+export default async function TagPage({ params }: TagPageProps) {
+  const { tag } = await params;
   const allPosts = getAllPosts();
 
   // Get all unique tags for the MenuBar
@@ -46,7 +45,6 @@ export default function TagPage({ params }: TagPageProps) {
   );
 }
 
-// Generate static paths for all tags
 export async function generateStaticParams() {
   const posts = getAllPosts();
   const tags = new Set<string>();

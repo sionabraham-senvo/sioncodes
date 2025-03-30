@@ -7,8 +7,8 @@ import {Intro} from "@/app/_components/intro";
 export default function AboutPage() {
   return (
     <main>
-      <Intro />
       <Container>
+        <Intro />
         <div className="max-w-4xl mx-auto py-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-8" style={{ color: "var(--secondary)" }}>
             About the Author
