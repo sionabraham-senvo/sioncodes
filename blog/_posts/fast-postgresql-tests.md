@@ -2,13 +2,13 @@
 title: "Lightning Fast PyTests with PostgreSQL & SQLAlchemy"
 excerpt: "Setting up your PostgreSQL database for fast tests can be a challenge. This guide will show you how to set 
 up your database for lightning fast tests using pytest and testing.postgresql."
-coverImage: "./assets/blog/fast-postgresql-tests/cover.png"
+coverImage: "/assets/blog/fast-postgresql-tests/cover.png"
 date: "2025-03-30T12:39:07.322Z"
 author:
   name: Siôn Abraham
-  picture: "./assets/blog/authors/sion.jpg"
+  picture: "/assets/blog/authors/sion_small.jpg"
 ogImage:
-  url: "./assets/blog/fast-postgresql-tests/cover.jpg"
+  url: "/assets/blog/fast-postgresql-tests/cover.jpg"
 tags: 
   - Python
   - SQLAlchemy
