@@ -1,0 +1,54 @@
+.markdown {
+  @apply text-lg leading-relaxed;
+}
+
+.markdown p,
+.markdown ul,
+.markdown ol,
+.markdown blockquote {
+  @apply my-6;
+}
+
+.markdown h2 {
+  @apply text-3xl mt-12 mb-4 leading-snug;
+}
+
+.markdown h3 {
+  @apply text-2xl mt-8 mb-4 leading-snug;
+}
+
+.markdown pre {
+  @apply bg-[#2d2d2d] text-[#f8f8f2] p-4 rounded overflow-x-auto text-base w-full;
+}
+
+.markdown code {
+  @apply bg-[#2d2d2d] text-[#f8f8f2] px-1 py-0.5 rounded text-base;
+}
+
+.callout-note,
+.callout-warning,
+.callout-tip {
+  @apply p-4 my-6 border-l-4 rounded;
+}
+
+.callout-note {
+  @apply border-blue-500 bg-blue-50;
+}
+
+.callout-warning {
+  @apply border-amber-500 bg-amber-50;
+}
+
+.callout-tip {
+  @apply border-emerald-500 bg-emerald-50;
+}
+
+.callout-heading {
+  @apply mt-0 font-semibold mb-2;
+}
+
+.callout-note .callout-heading strong,
+.callout-warning .callout-heading strong,
+.callout-tip .callout-heading strong {
+  @apply block mb-2;
+}

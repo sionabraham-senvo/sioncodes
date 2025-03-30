@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light mode colors */
+  --champagne: #FBE8CFff;
+  --coffee: #7F5B4Dff;
+  --cambridge-blue: #77A9A5ff;
+  --jasper: #C86C56ff;
+  --silver: #BFACAAff;
+  --caput-mortuum: #522D28ff;
+  --licorice: #220E14ff;
+  --garnet: #6A2E28ff;
+
+  /* Light mode semantic variables */
+  --background: var(--champagne);
+  --foreground: var(--licorice);
+  --primary: var(--cambridge-blue);
+  --secondary: var(--coffee);
+  --accent: var(--jasper);
+  --muted: var(--silver);
+  --border: var(--caput-mortuum);
+}
+
+.dark {
+  /* Dark mode colors */
+  --black: #000109ff;
+  --lapis-lazuli: #305D94ff;
+  --space-cadet: #1D233Dff;
+  --ultra-violet: #5D658Aff;
+  --yinmn-blue: #44517Dff;
+  --oxford-blue: #131C38ff;
+
+  /* Dark mode semantic variables */
+  --background: var(--black);
+  --foreground: white;
+  --primary: var(--lapis-lazuli);
+  --secondary: var(--ultra-violet);
+  --accent: var(--yinmn-blue);
+  --muted: var(--space-cadet);
+  --border: var(--oxford-blue);
+}
+
+/* Basic theme application */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--primary);
+}
+
+button:not(.switch) {
+  background-color: var(--primary);
+  color: var(--background);
+}
