@@ -54,7 +54,7 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
     return notFound();
   }
 
-  const title = `${post.title} | SionCodes.`;
+  const title = `${post.title} | SiônCodes.`;
 
   return {
     title,
