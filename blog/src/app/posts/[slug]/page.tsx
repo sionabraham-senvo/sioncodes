@@ -7,6 +7,7 @@ import Container from "@/app/_components/container";
 import { PostBody } from "@/app/_components/post-body";
 import { PostHeader } from "@/app/_components/post-header";
 import {Intro} from "@/app/_components/intro";
+import {getImagePath} from "@/lib/url";
 
 export default async function Post(props: Params) {
   const params = await props.params;
@@ -26,7 +27,7 @@ export default async function Post(props: Params) {
         <article className="mb-32">
           <PostHeader
             title={post.title}
-            coverImage={post.coverImage}
+            coverImage={getImagePath(post.coverImage)}
             date={post.date}
             author={post.author}
             excerpt={post.excerpt}

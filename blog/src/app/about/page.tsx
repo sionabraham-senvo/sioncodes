@@ -3,6 +3,7 @@ import Container from "@/app/_components/container";
 import Image from "next/image";
 import Link from "next/link";
 import {Intro} from "@/app/_components/intro";
+import {getImagePath} from "@/lib/url";
 
 export default function AboutPage() {
   return (
@@ -19,7 +20,7 @@ export default function AboutPage() {
             <div className="md:w-1/3">
               <div className="rounded-lg overflow-hidden mb-6 shadow-lg">
                 <Image
-                  src="./assets/blog/authors/sion_big.png"
+                  src={getImagePath("./assets/blog/authors/sion_big.png")}
                   alt="Siôn Abraham"
                   width={300}
                   height={300}
