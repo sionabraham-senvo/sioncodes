@@ -146,7 +146,7 @@ def test_create_new_user(user_repository):
     assert user.username == user_create.username
     assert user.email == user_create.email
 
-def test_update_user(user_repository):
+def test_update_user_with_existing_user(user_repository):
     """
     Given a user repository and an existing user,
     When updating the user's details,
