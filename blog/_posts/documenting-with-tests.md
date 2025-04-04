@@ -36,17 +36,8 @@ Now I can't help you with yak shaving Confluence to make middle management happy
 even you yourself will be scratching your head at the intended purpose of a service, endpoint, or adapter that you 
 wrote a while ago.
 
-## Documenting in tests?! I need a paracetamol.
-
-When I started my career, many companies were only just starting their transition to what we would now think of as a 
-modern tech stack. PHP and Java were the kings of the world, and hardly anyone had heard of Docker. I do somewhat 
-hold it as a badge of honor to have worked on physical servers!
-
-I'm digressing again! I bring this up because there is still a lot of legacy code out there, and there are 
-significantly more teams looking for people to maintain it than there are greenfield projects.
-
-Now you could take this in negativity, but to be able to quickly understand the business logic of a legacy codebase, 
-or even better yet, quickly onboarding a new team member is a skill that is in high demand.
+To be able to quickly understand the business logic of a legacy codebase, or even better yet, quickly onboarding a 
+new team member is a skill that is in high demand.
 
 This is where tests come in.
 
