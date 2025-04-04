@@ -1,5 +1,5 @@
 ---
-title: "Documenting Your Codes Business Logic via Tests"
+title: "Documenting Your Application's Business Logic via Tests"
 excerpt: "Documentation. The word strikes a sense of melancholy in everyone. This post explores how tests can make this process
 less painful and more effective."
 coverImage: "/assets/blog/documenting-with-tests/cover_small.png"
@@ -24,7 +24,7 @@ I digress...
 
 ## Documentation, the headache..
 
-It doesn't really matter at which stage you are at in your career:
+It doesn't really matter which stage you are at in your career:
 
 Corporate manager tells junior: "_That must be documented in Confluence, else it doesn't meet the DoD"_
 Junior tells the senior: _"How does this big chunk of code you wrote 4 years ago in a crunch time work?"_
@@ -33,8 +33,8 @@ Senior tells themselves: _"Working code over comprehensive documentation"_.
 Documenting your code as an activity is a boring time sink.
 
 Now I can't help you with yak shaving Confluence to make middle management happy, but there will come a point where 
-even you yourself will be scratching your  head at the intended purpose of a service, endpoint, or adapter that even 
-you wrote a while ago.
+even you yourself will be scratching your head at the intended purpose of a service, endpoint, or adapter that you 
+wrote a while ago.
 
 ## Documenting in tests?! I need a paracetamol.
 
@@ -42,11 +42,11 @@ When I started my career, many companies were only just starting their transitio
 modern tech stack. PHP and Java were the kings of the world, and hardly anyone had heard of Docker. I do somewhat 
 hold it as a badge of honor to have worked on physical servers!
 
-I'm digressing again! I bring this up, because there is still a lot of legacy code out there, and there are 
-significantly more teams looking for people to maintain it, than there are greenfield projects.
+I'm digressing again! I bring this up because there is still a lot of legacy code out there, and there are 
+significantly more teams looking for people to maintain it than there are greenfield projects.
 
 Now you could take this in negativity, but to be able to quickly understand the business logic of a legacy codebase, 
-or even better yet, quickly onboarding a new team member, is a skill that is in high demand.
+or even better yet, quickly onboarding a new team member is a skill that is in high demand.
 
 This is where tests come in.
 
@@ -87,12 +87,12 @@ developing:
         └── conftest.py
 ```
 
-It doesn't matter where we are in our codebase, we are now able to find exactly a description for the function, 
+It doesn't matter where we are in our codebase, we are now able to find exactly the description for the function, 
 service, or application we are looking for.
 
 ### Descriptive test names
 
-Next we are going to take a look at some tests, and give them names that assert the functionality of the underlying 
+Next, we are going to take a look at some tests and give them names that assert the functionality of the underlying 
 code. We want each test to tell us what to expect once the code has been run, for a given usecase.
 
 In the case below we are updating a user:
@@ -144,7 +144,7 @@ def test_user_picture_is_uploaded_and_assigned_to_user(user_repository):
     ...
 ```
 
-Much better! A small change, but it makes the test much more readable.
+Much better! A small change but it makes the test much more readable.
 
 Of course, the more complex the code, the more complex the test name will be. We must in these cases remember the 
 Zen of Python:
@@ -154,7 +154,7 @@ _If the implementation is hard to explain, it's a bad idea._
 _If the implementation is easy to explain, it may be a good idea._
 
 If you find yourself writing a test that is hard to explain, then it is likely that the code you are testing is also 
-too big, and might be a great time for a minor refactor.
+too big, and it might be a great time for a minor refactor.
 
 ### Detailed use-case scenarios
 
@@ -250,8 +250,8 @@ simply allow us to cluster test cases together, and share setup and teardown cod
 Now I dont always use it for the teardown and setup, but I do like to use it to group related test cases together. 
 
 For example, you might have an api route `/v1/users` and you want to test the different endpoints for get, list, 
-post etc.. Scrolling through multiple functions to find the cluster that are related to your specific endpoint can 
-be hassle, so we can do something like this:
+post etc.. Scrolling through multiple functions to find the cluster that is related to your specific endpoint can 
+be a hassle, so we can do something like this:
 
 ```python
 class TestUpdateUser:
@@ -275,17 +275,18 @@ class TestDeleteUser:
     ...
 ```
 
-The `...` ellipses illustrate collapsed code as you'd have in an IDE, and you can see how useful it is have only 
+The `...` ellipses illustrate collapsed code as you'd have in an IDE, and you can see how useful it is to have only 
 what you need to see when working!
 
 ## Conclusion
 
-And that's all that is too it! For a small investment of time now, you can save you and your team time in the future.
-If not time, then the cognitive load of having to remember how what you just wrote works.
+That's all that is to it! For a small investment of time now, you can save yourself and your team time in the future.
+If not time then the cognitive load of having to remember how what you just wrote works.
 
-What you can try doing once you've started this process, is to try and review your colleagues next PR starting with 
-the tests, and then moving to the code. This really helped me become a better reviewer, and I found that I was able to
-spot issues in the code that I would have otherwise missed, as I knew what the expectations were.
+What you can try doing once you've started this process, is to try and review your colleagues next PR or trunked 
+feature starting with the tests, and then moving to the code. This really helped me become a better reviewer, and I 
+found that I was able to spot issues in the code that I would have otherwise missed, as I knew what the expectations
+were.
 
 
 Thank you so much for reading! 
