@@ -3,7 +3,7 @@ title: "Documenting Your Codes Business Logic via Tests"
 excerpt: "Documentation. The word strikes a sense of melancholy in everyone. This post explores how tests can make this process
 less painful and more effective."
 coverImage: "/assets/blog/documenting-with-tests/cover_small.png"
-date: "2025-03-31T06:45:02.677Z"
+date: "2025-04-04T11:45:02.677Z"
 author:
   name: Siôn Abraham
   picture: "/assets/blog/authors/sion_small.jpg"
@@ -13,10 +13,6 @@ tags:
   - Python
   - PyTest
 ---
-
-> **Tip**
-> 
-> This article uses code excerpts from my Repository Pattern tutorial, available [here](https://github.com/sionabraham-senvo/sioncodes/tree/main/examples/repository_pattern) on GitHub.
 
 Before I start, I have to say how incredibly difficult it is not to clickbait the titles of these posts:
 
@@ -31,13 +27,14 @@ I digress...
 It doesn't really matter at which stage you are at in your career:
 
 Corporate manager tells junior: "_That must be documented in Confluence, else it doesn't meet the DoD"_
-Junior tells the senior: _"How did this big ugly chunk of code you wrote 4 years ago in a crunch time?"_
+Junior tells the senior: _"How does this big chunk of code you wrote 4 years ago in a crunch time work?"_
 Senior tells themselves: _"Working code over comprehensive documentation"_.
 
 Documenting your code as an activity is a boring time sink.
 
-Now I can't help you with yak shaving Confluence, but there will come a point where even you yourself will be 
-scratching your  head at the intended purpose of a service, endpoint, or adapter you wrote a while ago.
+Now I can't help you with yak shaving Confluence to make middle management happy, but there will come a point where 
+even you yourself will be scratching your  head at the intended purpose of a service, endpoint, or adapter that even 
+you wrote a while ago.
 
 ## Documenting in tests?! I need a paracetamol.
 
@@ -45,8 +42,8 @@ When I started my career, many companies were only just starting their transitio
 modern tech stack. PHP and Java were the kings of the world, and hardly anyone had heard of Docker. I do somewhat 
 hold it as a badge of honor to have worked on physical servers!
 
-I digress again! I bring this up, because there is still a lot of legacy code out there, and there are significantly 
-more teams looking for people to maintain it, than there are greenfield projects.
+I'm digressing again! I bring this up, because there is still a lot of legacy code out there, and there are 
+significantly more teams looking for people to maintain it, than there are greenfield projects.
 
 Now you could take this in negativity, but to be able to quickly understand the business logic of a legacy codebase, 
 or even better yet, quickly onboarding a new team member, is a skill that is in high demand.
@@ -59,10 +56,44 @@ Tests are a form of documentation: a living, breathing representation of your ap
 describe how your code is supposed to work, and often how it should not work. They instruct you on how the business 
 logic of your code operates, and how it interacts with other parts of application.
 
-### Descriptive Test Names
+Therefore, we should take care to present them in a way that is both easy to read, and to understand.
 
-The first thing we are going to do is take a look at some tests, and give them names that assert the functionality 
-of the underlying code. We want it to tell us what to expect once the code has been run.
+### Structure your tests like your code
+
+The first thing we can do to help ourselves is to structure our tests in a way that is similar to the code we are 
+developing:
+
+```text
+.
+└── my_project/
+    ├── src/
+    │   ├── adapters/
+    │   │   └── user_repository.py
+    │   ├── applications/
+    │   │   └── main_api/
+    │   │       └── routers/
+    │   │           └── users.py
+    │   └── services/
+    │       └── user_service.py
+    └── tests/
+        ├── adapters/
+        │   └── test_user_repository.py
+        ├── applications/
+        │   └── main_api/
+        │       └── routers/
+        │           └── test_users.py
+        ├── services/
+        │   └── test_user_service.py
+        └── conftest.py
+```
+
+It doesn't matter where we are in our codebase, we are now able to find exactly a description for the function, 
+service, or application we are looking for.
+
+### Descriptive test names
+
+Next we are going to take a look at some tests, and give them names that assert the functionality of the underlying 
+code. We want each test to tell us what to expect once the code has been run, for a given usecase.
 
 In the case below we are updating a user:
 
@@ -98,7 +129,9 @@ def test_post_user_picture(user_repository):
     ...
 ```
 
-seems pretty standard, right? But what if we were to change the name of the test to be more descriptive?
+seems like a pretty standard set of tests, right? 
+
+_But_ what if we were to change the name of the test to be more descriptive?
 
 ```python
 def test_update_user_with_existing_user(user_repository):
@@ -208,6 +241,42 @@ def test_update_user_with_existing_user(user_repository):
     assert updated_user.username == "_updated_username"
     assert updated_user.email == "_updated_email"
 ```
+
+### Clustering test cases in classes
+
+You might have seen `class TestSomeCode` and `def test_some_code` and wondered what the difference is. Classes 
+simply allow us to cluster test cases together, and share setup and teardown code between them.
+
+Now I dont always use it for the teardown and setup, but I do like to use it to group related test cases together. 
+
+For example, you might have an api route `/v1/users` and you want to test the different endpoints for get, list, 
+post etc.. Scrolling through multiple functions to find the cluster that are related to your specific endpoint can 
+be hassle, so we can do something like this:
+
+```python
+class TestUpdateUser:
+    @pytest.fixture
+    def user_repository(self, db_session):
+        return PostgreSQLUserRepository(db_session)
+    
+    def test_update_user_with_existing_user(self, user_repository):
+        ...
+    
+    def test_update_user_no_existing_user(self, user_repository):
+        ...
+    
+    def test_user_picture_is_uploaded_and_assigned_to_user(self, user_repository):
+        ...
+
+class TestCreateUser:
+    ...
+
+class TestDeleteUser:
+    ...
+```
+
+The `...` ellipses illustrate collapsed code as you'd have in an IDE, and you can see how useful it is have only 
+what you need to see when working!
 
 ## Conclusion
 

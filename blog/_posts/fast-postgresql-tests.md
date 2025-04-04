@@ -20,7 +20,7 @@ tags:
 > 
 > This article uses code excerpts from my Repository Pattern tutorial, available [here](https://github.com/sionabraham-senvo/sioncodes/tree/main/examples/repository_pattern) on GitHub.
 
-##  Commitment is Thieving Time From You!
+##  Commitment is thieving time from you!
 
 SQLAlchemy's session management can be a bit tricky to wrap your head around, and is very often the source of 
 performance issues.
@@ -36,7 +36,7 @@ a script is finished. This means we bundle all the changes made in the session i
 so that any errors that occur during the transaction will cause the entire transaction to be rolled back. This keeps 
 our database free from data corruption, by preventing only partial writes.
 
-###  Flush Before Commit
+###  Flush before commit
 
 When you call `flush()`, SQLAlchemy sends all pending changes to the memory of your database, but does not commit them.
 This means that the changes are not yet written to the storage device, and can be rolled back if an error occurs.
@@ -113,7 +113,7 @@ routes gain a small performance boost.
 
 Our tests really do all the speaking for our application!
 
-##  How You Run Your Database Matters
+##  How you run your database matters
 
 The most common way, at least how I have seen over my career, is to run your database in a Docker container. This is 
 great for running a local development instance, but not so great for testing for a number of reasons:
@@ -125,7 +125,7 @@ great for running a local development instance, but not so great for testing for
 - **Resource Contention**: If you are running your tests in a CI/CD pipeline, you may be sharing resources with other 
   jobs. This can lead to resource contention and slow down your tests.
 
-###  In Memory Databases
+###  In memory databases
 
 The answer lies in the use of disposable in-memory database! This means that the database is 
 created in RAM and is destroyed when the tests are finished. This has a number of advantages:
