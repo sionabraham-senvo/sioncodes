@@ -20,7 +20,7 @@ export default function AboutPage() {
             <div className="md:w-1/3">
               <div className="rounded-lg overflow-hidden mb-6 shadow-lg">
                 <Image
-                  src={getImagePath("/assets/blog/authors/sion_big.png")}
+                  src={getImagePath("/assets/blog/authors/sion_big.webp")}
                   alt="Siôn Abraham"
                   width={300}
                   height={300}
