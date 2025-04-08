@@ -1,21 +1,30 @@
-import Footer from "@/app/_components/footer";
-import { CMS_NAME, HOME_OG_IMAGE_URL } from "@/lib/constants";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import cn from "classnames";
 import { ThemeSwitcher } from "./_components/theme-switcher";
 
 import "./globals.css";
+import {getImagePath} from "@/lib/url";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: `SiônCodes.`,
-  description: `A blog about web development, software, and programming.`,
+export const metadata = {
+  title: 'SionCodes.',
+  description: 'A blog about web development, software, and programming. ',
   openGraph: {
-    images: [HOME_OG_IMAGE_URL],
+    title: 'SionCodes.',
+    description: 'A blog about web development, software, and programming. ',
+    url: 'https://sionabraham-senvo.github.io/sioncodes/',
+    siteName: 'SionCodes.',
+    images: [
+      {
+        url: getImagePath("/assets/blog/documenting-with-tests/cover_small.webp"),
+        alt: 'Discovering the world of web development and programming',
+      },
+    ],
+    locale: 'en_EN',
+    type: 'website',
   },
-};
+}
 
 export default function RootLayout({
   children,

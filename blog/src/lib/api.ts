@@ -20,6 +20,10 @@ export function getPostBySlug(slug: string) {
     data.coverImage = getImagePath(data.coverImage);
   }
 
+  if (data.thumbnailImage) {
+    data.thumbnailImage = getImagePath(data.thumbnailImage);
+  }
+
   if (data.author && data.author.picture) {
     data.author.picture = getImagePath(data.author.picture);
   }
