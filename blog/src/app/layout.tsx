@@ -63,7 +63,6 @@ export default function RootLayout({
       >
         <ThemeSwitcher />
         <div className="min-h-screen">{children}</div>
-        <Footer />
       </body>
     </html>
   );

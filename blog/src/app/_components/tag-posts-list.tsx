@@ -25,7 +25,7 @@ export function TagPostsList({ posts, tag }: Props) {
         {posts.map((post) => (
           <div key={post.slug}
                className="flex flex-col md:flex-row gap-6 p-4 rounded-lg"
-               style={{ backgroundColor: "var(--background)", borderLeft: "4px solid var(--accent)" }}>
+               style={{ backgroundColor: "var(--background)", borderLeft: "4px solid var(--primary)" }}>
             <div className="md:w-1/3">
               <CoverImage slug={post.slug} title={post.title} src={post.coverImage} />
             </div>

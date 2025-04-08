@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Light mode colors */
+  /* Main palette */
   --champagne: #FBE8CFff;
   --coffee: #7F5B4Dff;
   --cambridge-blue: #77A9A5ff;
@@ -13,18 +13,26 @@
   --licorice: #220E14ff;
   --garnet: #6A2E28ff;
 
-  /* Light mode semantic variables */
+  /* Functional color assignments */
   --background: var(--champagne);
-  --foreground: var(--licorice);
+  --text: var(--licorice);
   --primary: var(--cambridge-blue);
-  --secondary: var(--coffee);
-  --accent: var(--jasper);
-  --muted: var(--silver);
-  --border: var(--caput-mortuum);
+  --secondary: var(--jasper);
+  --accent-1: var(--coffee);
+  --accent-2: var(--silver);
+  --accent-3: var(--garnet);
+  --dark-background: var(--caput-mortuum);
+
+  /* Additional useful variations */
+  --background-alt: var(--silver);
+  --border-color: var(--coffee);
+  --heading-color: var(--coffee);
+  --link-color: var(--garnet);
+  --link-hover: var(--jasper);
+  --button-hover: var(--garnet);
 }
 
 .dark {
-  /* Dark mode colors */
   --black: #000109ff;
   --lapis-lazuli: #305D94ff;
   --space-cadet: #1D233Dff;
@@ -32,14 +40,20 @@
   --yinmn-blue: #44517Dff;
   --oxford-blue: #131C38ff;
 
-  /* Dark mode semantic variables */
-  --background: var(--black);
-  --foreground: white;
+  --background: var(--oxford-blue);
+  --text: #ffffff;
   --primary: var(--lapis-lazuli);
   --secondary: var(--ultra-violet);
-  --accent: var(--yinmn-blue);
-  --muted: var(--space-cadet);
-  --border: var(--oxford-blue);
+  --accent-1: var(--yinmn-blue);
+  --accent-2: var(--space-cadet);
+  --accent-3: var(--oxford-blue);
+
+  --background-alt: var(--oxford-blue);
+  --border-color: var(--ultra-violet);
+  --heading-color: var(--lapis-lazuli);
+  --link-color: var(--lapis-lazuli);
+  --link-hover: var(--ultra-violet);
+  --button-hover: var(--space-cadet);
 }
 
 /* Basic theme application */

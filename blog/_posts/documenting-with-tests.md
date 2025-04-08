@@ -3,6 +3,7 @@ title: "Documenting Your Application's Business Logic via Tests"
 excerpt: "Documentation. The word strikes a sense of melancholy in everyone. This post explores how tests can make this process
 less painful and more effective."
 coverImage: "/assets/blog/documenting-with-tests/cover_small.webp"
+thumbnailImage: "/assets/blog/documenting-with-tests/cover_thumbnail.webp"
 date: "2025-04-04T11:45:02.677Z"
 author:
   name: Siôn Abraham
@@ -26,9 +27,9 @@ I digress...
 
 It doesn't really matter which stage you are at in your career:
 
-Corporate manager tells junior: "_That must be documented in Confluence, else it doesn't meet the DoD"_
-Junior tells the senior: _"How does this big chunk of code you wrote 4 years ago in a crunch time work?"_
-Senior tells themselves: _"Working code over comprehensive documentation"_.
+* Corporate manager tells junior: "_That must be documented in Confluence, else it doesn't meet the DoD"_
+* Junior tells the senior: _"How does this big chunk of code you wrote 4 years ago in a crunch time work?"_
+* Senior tells themselves: _"Working code over comprehensive documentation"_.
 
 Documenting your code as an activity is a boring time sink.
 

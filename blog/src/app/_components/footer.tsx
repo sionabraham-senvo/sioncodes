@@ -1,9 +1,13 @@
-import Container from "@/app/_components/container";
-import { EXAMPLE_PATH } from "@/lib/constants";
-
 export function Footer() {
   return (
-    <footer className="bg-neutral-50 border-t border-neutral-200 dark:bg-slate-800">
+<footer className="border-t py-8 mt-16 bg-secondary text-white">
+  <div className="container mx-auto px-5">
+        <div className="flex flex-col items-center justify-center text-sm">
+          <p>
+            Made with <span className="text-red-500">❤</span> in Berlin
+          </p>
+        </div>
+      </div>
     </footer>
   );
 }

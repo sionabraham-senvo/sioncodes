@@ -135,7 +135,7 @@ const MenuBar = ({ items = ['Home', 'About'] }: MenuBarProps) => {
                     className="block px-4 py-2 hover:opacity-80 whitespace-nowrap"
                     style={{
                       backgroundColor: 'transparent',
-                      color: 'var(--primary)'
+                      color: 'var(--secondary)'
                     }}
                   >
                     {item}
@@ -146,7 +146,7 @@ const MenuBar = ({ items = ['Home', 'About'] }: MenuBarProps) => {
           </div>
         )}
       </div>
-      <div className="h-0.5 w-full mt-2" style={{ backgroundColor: 'var(--border)' }}></div>
+    <div className="h-0.5 w-full mt-2" style={{ backgroundColor: 'var(--text)' }}></div>
     </nav>
   );
 };
