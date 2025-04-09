@@ -1,5 +1,5 @@
 export function getBasePath() {
-  return process.env.NODE_ENV === 'production' ? '/sioncodes' : '';
+  return process.env.NODE_ENV === 'production' ? '' : '';
 }
 
 export function createUrl(path: string) {
