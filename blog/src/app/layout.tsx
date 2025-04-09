@@ -4,6 +4,7 @@ import { ThemeSwitcher } from "./_components/theme-switcher";
 
 import "./globals.css";
 import {getImagePath} from "@/lib/url";
+import Alert from "@/app/_components/alert";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -70,7 +71,14 @@ export default function RootLayout({
       <body
         className={cn(inter.className, "dark:bg-slate-900 dark:text-slate-400")}
       >
-        <ThemeSwitcher />
+      <Alert
+        text="While we code, Ukrainians are fighting for our freedom. Please consider donating:"
+        link={{
+          url: "https://u24.gov.ua/donate",
+          text: "United24 🇺🇦"
+        }}
+      />
+      <ThemeSwitcher />
         <div className="min-h-screen">{children}</div>
       </body>
     </html>
