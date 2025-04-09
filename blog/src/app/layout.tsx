@@ -13,7 +13,7 @@ export const metadata = {
   openGraph: {
     title: 'SionCodes.',
     description: 'A blog about web development, software, and programming. ',
-    url: 'https://sionabraham-senvo.github.io/sioncodes/',
+    url: 'https://sioncodes.com',
     siteName: 'SionCodes.',
     images: [
       {
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script defer data-domain="sionabraham-senvo.github.io/sioncodes" src="https://plausible.io/js/script.js"></script>
+        <script defer data-domain="https://sioncodes.com" src="https://plausible.io/js/script.js"></script>
         <link
           rel="apple-touch-icon"
           sizes="180x180"
