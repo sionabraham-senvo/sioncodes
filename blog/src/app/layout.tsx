@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script defer data-domain="https://sioncodes.com" src="https://plausible.io/js/script.js"></script>
+        <script defer data-domain="sioncodes.com" src="https://plausible.io/js/script.js"></script>
         <link
           rel="apple-touch-icon"
           sizes="180x180"
