@@ -18,11 +18,7 @@ const Alert = ({ preview, text, link, children }: Props) => {
 
   return (
     <div
-      className={cn("border-b border-transparent", {
-        "bg-[#0057B7] text-white": preview,
-        "bg-[#0057B7] text-white": !preview,
-      })}
-      style={{ borderColor: 'var(--border-color)' }}
+      className={cn("border-b border-transparent bg-[#0057B7] text-white")}
     >
       <div className="container mx-auto py-2 px-4 text-center">
         {text || children}
