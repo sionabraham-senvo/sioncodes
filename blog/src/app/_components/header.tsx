@@ -1,12 +1,23 @@
-import Link from "next/link";
+import StickyNav from "./sticky-nav";
+import { getAllPosts, getPostsByTags } from "@/lib/api";
 
-const Header = () => {
+type Props = {
+  showBrand?: boolean;
+  condenseOnScroll?: boolean;
+};
+
+const Header = ({ showBrand = true, condenseOnScroll = false }: Props) => {
+  const posts = getAllPosts();
+  const postsByTags = getPostsByTags(posts);
+  const tags = Object.keys(postsByTags).filter((tag) => tag !== "uncategorized");
+  const menuItems = ["Home", ...tags, "About"];
+
   return (
-    <h2 className="text-2xl md:text-4xl font-bold tracking-tight md:tracking-tighter leading-tight mb-20 mt-8 flex items-center">
-      <Link href="/" className="hover:underline">
-        SiônCodes.
-      </Link>
-    </h2>
+    <StickyNav
+      menuItems={menuItems}
+      showBrand={showBrand}
+      condenseOnScroll={condenseOnScroll}
+    />
   );
 };
 

@@ -1,17 +1,19 @@
 const UkraineDonationBanner = () => {
   return (
-    <div className="border-b border-transparent bg-[#0057B7] text-white">
-      <div className="container mx-auto py-2 px-4 text-center">
-        While we code, Ukrainians are fighting for our freedom. Please consider donating:{" "}
+    <div className="bg-[#0057B7] text-white text-sm">
+      <div className="container mx-auto px-4 py-2 text-center">
+        <span className="opacity-90">
+          While we code, Ukrainians are fighting for our freedom. Please consider donating:
+        </span>{" "}
         <a
           href="https://u24.gov.ua/donate"
-          className="underline font-semibold hover:opacity-80 transition-opacity"
+          className="underline underline-offset-2 font-semibold hover:opacity-80 transition-opacity"
           target="_blank"
           rel="noopener noreferrer"
         >
           United24 🇺🇦
-        </a>
-        {" Героям слава!"}
+        </a>{" "}
+        <span className="opacity-90">Героям слава!</span>
       </div>
     </div>
   );

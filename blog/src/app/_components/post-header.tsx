@@ -3,6 +3,7 @@ import CoverImage from "./cover-image";
 import DateFormatter from "./date-formatter";
 import { PostTitle } from "@/app/_components/post-title";
 import { type Author } from "@/interfaces/author";
+import Link from "next/link";
 
 type Props = {
   title: string;
@@ -15,30 +16,36 @@ type Props = {
 
 export function PostHeader({ title, coverImage, date, author, excerpt, tags }: Props) {
   return (
-    <div className="header-background p-6 rounded-t-lg">
-      <div className="flex flex-col md:flex-row gap-8 mb-8 md:mb-16">
-        {/* Cover image on the left */}
-        <div className="md:w-1/2">
-          <CoverImage title={title} src={coverImage} />
+    <header className="mb-12 md:mb-16">
+      {tags && tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {tags.map((tag) => (
+            <Link
+              key={tag}
+              href={`/tags/${tag.toLowerCase()}`}
+              className="inline-flex items-center text-xs font-medium uppercase tracking-[0.18em] px-3 py-1 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+            >
+              {tag}
+            </Link>
+          ))}
         </div>
-
-        {/* Title and avatar on the right */}
-        <div className="md:w-1/2 flex flex-col">
-          {tags && tags.length > 0 && (
-            <div className="text-xs text-gray-500 mb-2 font-bold uppercase">
-              {tags.join("   /   ")}
-            </div>
-          )}
-          <PostTitle>{title}</PostTitle>
-          <p className="text-lg leading-relaxed mb-4 text-gray-600">{excerpt}</p>
-          <div className="mt-4">
-            <Avatar name={author.name} picture={author.picture} />
-          </div>
-          <div className="mt-2">
-            <DateFormatter dateString={date} includeTimezone={true} />
-          </div>
+      )}
+      <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+        <CoverImage title={title} src={coverImage} />
+      </div>
+      <div className="relative z-10 -mt-16 md:-mt-24 mx-4 md:mx-10 rounded-xl bg-card border border-border shadow-lg px-6 md:px-10 pt-6 md:pt-8 pb-6 md:pb-10">
+        <PostTitle>{title}</PostTitle>
+        <p className="mt-6 text-lg md:text-xl leading-relaxed text-muted-foreground max-w-3xl">
+          {excerpt}
+        </p>
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
+          <Avatar name={author.name} picture={author.picture} />
+          <span aria-hidden className="opacity-40">
+            ·
+          </span>
+          <DateFormatter dateString={date} includeTimezone />
         </div>
       </div>
-    </div>
+    </header>
   );
 }

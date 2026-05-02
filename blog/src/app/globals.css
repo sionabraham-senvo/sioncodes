@@ -2,72 +2,130 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Main palette */
-  --champagne: #FBE8CFff;
-  --coffee: #7F5B4Dff;
-  --cambridge-blue: #77A9A5ff;
-  --jasper: #C86C56ff;
-  --silver: #BFACAAff;
-  --caput-mortuum: #522D28ff;
-  --licorice: #220E14ff;
-  --garnet: #6A2E28ff;
+@layer base {
+  :root {
+    /* Light — warm minimal */
+    --background: 36 75% 91%;
+    --foreground: 350 43% 9%;
+    --card: 36 80% 96%;
+    --card-foreground: 350 43% 9%;
+    --muted: 14 18% 75%;
+    --muted-foreground: 14 25% 35%;
+    --primary: 351 41% 28%;
+    --primary-foreground: 36 80% 96%;
+    --secondary: 13 51% 56%;
+    --secondary-foreground: 36 80% 96%;
+    --accent: 178 22% 57%;
+    --accent-foreground: 350 43% 9%;
+    --border: 14 25% 78%;
+    --ring: 351 41% 35%;
+  }
 
-  /* Functional color assignments */
-  --background: var(--champagne);
-  --text: var(--licorice);
-  --primary: var(--cambridge-blue);
-  --secondary: var(--jasper);
-  --accent-1: var(--coffee);
-  --accent-2: var(--silver);
-  --accent-3: var(--garnet);
-  --dark-background: var(--caput-mortuum);
+  .dark {
+    /* Dark — cool ink */
+    --background: 222 47% 8%;
+    --foreground: 220 15% 92%;
+    --card: 226 35% 13%;
+    --card-foreground: 220 15% 96%;
+    --muted: 226 25% 22%;
+    --muted-foreground: 220 15% 70%;
+    --primary: 213 60% 60%;
+    --primary-foreground: 222 47% 8%;
+    --secondary: 232 25% 60%;
+    --secondary-foreground: 222 47% 8%;
+    --accent: 213 60% 50%;
+    --accent-foreground: 220 15% 96%;
+    --border: 226 25% 22%;
+    --ring: 213 60% 60%;
+  }
 
-  /* Additional useful variations */
-  --background-alt: var(--silver);
-  --border-color: var(--coffee);
-  --heading-color: var(--coffee);
-  --link-color: var(--garnet);
-  --link-hover: var(--jasper);
-  --button-hover: var(--garnet);
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "ss01", "cv11";
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.25);
+    color: hsl(var(--foreground));
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 999px;
+    border: 3px solid hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.6);
+  }
 }
 
-.dark {
-  --black: #000109ff;
-  --lapis-lazuli: #305D94ff;
-  --space-cadet: #1D233Dff;
-  --ultra-violet: #5D658Aff;
-  --yinmn-blue: #44517Dff;
-  --oxford-blue: #131C38ff;
+@layer components {
+  /* Scroll-progress bar (progressive enhancement; ignored on browsers without scroll-timeline) */
+  .scroll-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: hsl(var(--primary));
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    z-index: 60;
+    pointer-events: none;
+  }
+  @supports (animation-timeline: scroll()) {
+    .scroll-progress {
+      animation: scroll-progress linear;
+      animation-timeline: scroll(root);
+    }
+    @keyframes scroll-progress {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+  }
 
-  --background: var(--oxford-blue);
-  --text: #ffffff;
-  --primary: var(--lapis-lazuli);
-  --secondary: var(--ultra-violet);
-  --accent-1: var(--yinmn-blue);
-  --accent-2: var(--space-cadet);
-  --accent-3: var(--oxford-blue);
-
-  --background-alt: var(--oxford-blue);
-  --border-color: var(--ultra-violet);
-  --heading-color: var(--lapis-lazuli);
-  --link-color: var(--lapis-lazuli);
-  --link-hover: var(--ultra-violet);
-  --button-hover: var(--space-cadet);
+  /* Subtle radial vignette behind the hero — gives the page some depth */
+  .hero-glow {
+    position: relative;
+    isolation: isolate;
+  }
+  .hero-glow::before {
+    content: "";
+    position: absolute;
+    inset: -10% -10% auto -10%;
+    height: 60%;
+    background:
+      radial-gradient(60% 80% at 20% 0%, hsl(var(--secondary) / 0.18), transparent 60%),
+      radial-gradient(50% 80% at 90% 10%, hsl(var(--accent) / 0.18), transparent 60%);
+    z-index: -1;
+    filter: blur(20px);
+    pointer-events: none;
+  }
 }
 
-/* Basic theme application */
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Native view transitions on navigation (Chrome 126+, degrades silently) */
+@view-transition {
+  navigation: auto;
 }
 
-a {
-  color: var(--primary);
-}
-
-button:not(.switch) {
-  background-color: var(--primary);
-  color: var(--background);
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.25s;
 }

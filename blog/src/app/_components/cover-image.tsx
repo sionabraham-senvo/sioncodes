@@ -1,5 +1,3 @@
-import cn from "classnames";
-import Link from "next/link";
 import Image from "next/image";
 
 type Props = {
@@ -8,28 +6,15 @@ type Props = {
   slug?: string;
 };
 
-const CoverImage = ({ title, src, slug }: Props) => {
-  const image = (
+const CoverImage = ({ title, src }: Props) => {
+  return (
     <Image
       src={src}
       alt={`Cover Image for ${title}`}
-      className={cn("shadow-sm w-full", {
-        "hover:shadow-lg transition-shadow duration-200": slug,
-      })}
+      className="w-full h-auto block"
       width={1300}
       height={630}
     />
-  );
-  return (
-    <div className="sm:mx-0">
-      {slug ? (
-        <Link href={`/posts/${slug}`} aria-label={title}>
-          {image}
-        </Link>
-      ) : (
-        image
-      )}
-    </div>
   );
 };
 

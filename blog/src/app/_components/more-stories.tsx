@@ -7,11 +7,14 @@ type Props = {
 
 export function MoreStories({ posts }: Props) {
   return (
-    <section>
-      <h2 className="mb-8 text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
-        More Stories.
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-16 lg:gap-x-32 gap-y-20 md:gap-y-32 mb-32">
+    <section className="mb-32">
+      <div className="flex items-baseline justify-between mb-10">
+        <h2 className="font-serif text-h1-fluid font-semibold tracking-tight">
+          More stories<span className="text-primary">.</span>
+        </h2>
+        <span className="text-sm text-muted-foreground">{posts.length} more</span>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (
           <PostPreview
             key={post.slug}
