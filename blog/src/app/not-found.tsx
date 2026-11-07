@@ -3,7 +3,6 @@ import Image from "next/image";
 import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import Footer from "@/app/_components/footer";
-import { createUrl, getImagePath } from "@/lib/url";
 
 export default function NotFound() {
   return (
@@ -14,7 +13,7 @@ export default function NotFound() {
           <div className="flex flex-col items-center justify-center text-center min-h-[60vh] py-12">
             <div className="relative w-40 h-40 md:w-56 md:h-56 mb-8">
               <Image
-                src={getImagePath("/assets/blog/authors/sion_walking.webp")}
+                src="/assets/blog/authors/sion_walking.webp"
                 alt="Sion walking"
                 fill
                 style={{ objectFit: "contain" }}
@@ -29,7 +28,7 @@ export default function NotFound() {
               We all get lost sometimes. Head back to the homepage and start over from there.
             </p>
             <Link
-              href={createUrl("/")}
+              href="/"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
             >
               Return home <span aria-hidden>→</span>

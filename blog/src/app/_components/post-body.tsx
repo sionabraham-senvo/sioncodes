@@ -1,37 +1,12 @@
-"use client";
-
-import { useEffect } from "react";
-import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark.css";
 import styles from "./markdown-styles.module.css";
 
 type Props = {
+  /** HTML from markdownToHtml: syntax highlighting and callouts are already applied at build time. */
   content: string;
 };
 
 export function PostBody({ content }: Props) {
-  useEffect(() => {
-    document.querySelectorAll("pre code").forEach((block) => {
-      hljs.highlightElement(block as HTMLElement);
-    });
-
-    document.querySelectorAll("blockquote").forEach((blockquote) => {
-      const firstParagraph = blockquote.querySelector("p:first-child");
-      if (!firstParagraph) return;
-      const strongText = firstParagraph.querySelector("strong")?.textContent ?? "";
-      if (strongText === "Note") {
-        blockquote.classList.add(styles.calloutNote);
-        firstParagraph.classList.add(styles.calloutHeading);
-      } else if (strongText === "Warning") {
-        blockquote.classList.add(styles.calloutWarning);
-        firstParagraph.classList.add(styles.calloutHeading);
-      } else if (strongText === "Tip") {
-        blockquote.classList.add(styles.calloutTip);
-        firstParagraph.classList.add(styles.calloutHeading);
-      }
-    });
-  }, [content]);
-
   return (
     <article
       className={`${styles.markdown} prose prose-lg max-w-none font-serif

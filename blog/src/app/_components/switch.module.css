@@ -19,19 +19,14 @@
   color: hsl(var(--primary));
 }
 
-.switch::after {
-  font-size: 0.95rem;
-  line-height: 1;
+.icon {
+  display: none;
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
-[data-mode="system"] .switch::after {
-  content: "🖥";
-}
-
-[data-mode="light"] .switch::after {
-  content: "☀";
-}
-
-[data-mode="dark"] .switch::after {
-  content: "☾";
+[data-mode="system"] .iconSystem,
+[data-mode="light"] .iconLight,
+[data-mode="dark"] .iconDark {
+  display: block;
 }

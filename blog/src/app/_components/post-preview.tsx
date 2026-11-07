@@ -11,6 +11,7 @@ type Props = {
   excerpt: string;
   author: Author;
   slug: string;
+  layout?: "card" | "row";
 };
 
 export function PostPreview({
@@ -20,7 +21,12 @@ export function PostPreview({
   excerpt,
   author,
   slug,
+  layout = "card",
 }: Props) {
+  if (layout === "row") {
+    return <PostRow {...{ title, coverImage, date, excerpt, author, slug }} />;
+  }
+
   return (
     <Link
       href={`/posts/${slug}`}
@@ -28,7 +34,7 @@ export function PostPreview({
     >
       <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
         <div className="transition-transform duration-500 group-hover:scale-[1.03]">
-          <CoverImage slug={slug} title={title} src={coverImage} />
+          <CoverImage title={title} src={coverImage} />
         </div>
       </div>
       <div className="relative z-10 -mt-12 md:-mt-16 mx-4 md:mx-6 rounded-xl bg-card border border-border shadow-md px-6 py-5 flex flex-col flex-1 group-hover:shadow-lg transition-shadow duration-300">
@@ -39,6 +45,43 @@ export function PostPreview({
           {excerpt}
         </p>
         <div className="mt-auto pt-5 flex items-center gap-3">
+          <Image
+            src={author.picture}
+            alt={author.name}
+            width={40}
+            height={40}
+            className="w-10 h-10 rounded-full ring-2 ring-border object-cover"
+          />
+          <div className="leading-tight">
+            <div className="text-sm font-medium text-foreground">{author.name}</div>
+            <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mt-0.5">
+              <DateFormatter dateString={date} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+/** Wide variant used while there are only one or two posts to show: image left, card overlapping right. */
+function PostRow({ title, coverImage, date, excerpt, author, slug }: Omit<Props, "layout">) {
+  return (
+    <Link
+      href={`/posts/${slug}`}
+      className="group grid md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:items-center"
+    >
+      <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+        <div className="relative aspect-[3/2] transition-transform duration-500 group-hover:scale-[1.03]">
+          <CoverImage title={title} src={coverImage} fill />
+        </div>
+      </div>
+      <div className="relative z-10 -mt-12 mx-4 md:mt-0 md:mx-0 md:-ml-16 rounded-xl bg-card border border-border shadow-md px-6 md:px-10 py-6 md:py-9 group-hover:shadow-lg transition-shadow duration-300">
+        <h3 className="font-serif text-2xl md:text-3xl leading-tight font-semibold tracking-tight text-card-foreground group-hover:text-primary transition-colors">
+          {title}
+        </h3>
+        <p className="mt-3 text-base text-muted-foreground leading-relaxed line-clamp-3">{excerpt}</p>
+        <div className="mt-6 flex items-center gap-3">
           <Image
             src={author.picture}
             alt={author.name}

@@ -1,11 +1,19 @@
+import type { Metadata, Viewport } from "next";
 import { Inter, Source_Serif_4, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import cn from "classnames";
 import { ThemeScript } from "./_components/theme-switcher";
 
 import "./globals.css";
-import { getImagePath } from "@/lib/url";
 import UkraineDonationBanner from "@/app/_components/ukraine-donation-banner";
+import {
+  DEFAULT_OG_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_LOCALE,
+  SITE_NAME,
+  SITE_URL,
+  THEME_COLORS,
+} from "@/lib/site";
 
 const sans = Inter({
   subsets: ["latin"],
@@ -25,24 +33,37 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-export const metadata = {
-  metadataBase: new URL("https://sioncodes.com"),
-  title: "SionCodes.",
-  description: "A blog about web development, software, and programming. ",
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
   openGraph: {
-    title: "SionCodes.",
-    description: "A blog about web development, software, and programming. ",
-    url: "https://sioncodes.com",
-    siteName: "SionCodes.",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_NAME,
     images: [
       {
-        url: getImagePath("/assets/blog/documenting-with-tests/cover_small.webp"),
+        url: DEFAULT_OG_IMAGE,
         alt: "Discovering the world of web development and programming",
       },
     ],
-    locale: "en_EN",
+    locale: SITE_LOCALE,
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+export const viewport: Viewport = {
+  // Follows the OS setting; ThemeScript keeps it in sync when the reader picks a theme manually.
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: THEME_COLORS.light },
+    { media: "(prefers-color-scheme: dark)", color: THEME_COLORS.dark },
+  ],
 };
 
 export default function RootLayout({
@@ -61,8 +82,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
         <meta name="msapplication-TileColor" content="#000000" />
         <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
-        <meta name="theme-color" content="#0e1424" />
-        <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+        <link rel="alternate" type="application/rss+xml" title={SITE_NAME} href="/feed.xml" />
       </head>
       <body className="font-sans bg-background text-foreground antialiased">
         <Script

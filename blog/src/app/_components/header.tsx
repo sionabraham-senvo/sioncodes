@@ -1,22 +1,28 @@
 import StickyNav from "./sticky-nav";
-import { getAllPosts, getPostsByTags } from "@/lib/api";
+import { getAllTags, tagSlug } from "@/lib/api";
 
 type Props = {
   showBrand?: boolean;
   condenseOnScroll?: boolean;
+  brandText?: string;
+  condensedBrandText?: string;
 };
 
-const Header = ({ showBrand = true, condenseOnScroll = false }: Props) => {
-  const posts = getAllPosts();
-  const postsByTags = getPostsByTags(posts);
-  const tags = Object.keys(postsByTags).filter((tag) => tag !== "uncategorized");
-  const menuItems = ["Home", ...tags, "About"];
+const Header = ({
+  showBrand = true,
+  condenseOnScroll = false,
+  brandText,
+  condensedBrandText,
+}: Props) => {
+  const tagLinks = getAllTags().map((tag) => ({ label: tag, href: `/tags/${tagSlug(tag)}` }));
 
   return (
     <StickyNav
-      menuItems={menuItems}
+      tagLinks={tagLinks}
       showBrand={showBrand}
       condenseOnScroll={condenseOnScroll}
+      brandText={brandText}
+      condensedBrandText={condensedBrandText}
     />
   );
 };

@@ -24,14 +24,16 @@ export function SidebarLatestPosts({ posts, limit = 5 }: Props) {
                 href={`/posts/${post.slug}`}
                 className="group flex items-center gap-3"
               >
-                <div className="flex-shrink-0 overflow-hidden rounded-md border border-border">
-                  <Image
-                    src={thumbnailSrc}
-                    alt={`Thumbnail for ${post.title}`}
-                    width={56}
-                    height={56}
-                    className="object-cover w-14 h-14 group-hover:scale-105 transition-transform duration-300"
-                  />
+                <div className="flex-shrink-0 overflow-hidden rounded-md border border-border w-14 h-14 bg-muted/40">
+                  {thumbnailSrc && (
+                    <Image
+                      src={thumbnailSrc}
+                      alt={`Thumbnail for ${post.title}`}
+                      width={56}
+                      height={56}
+                      className="object-cover w-14 h-14 group-hover:scale-105 transition-transform duration-300"
+                    />
+                  )}
                 </div>
                 <h3 className="text-sm font-medium leading-snug group-hover:text-primary transition-colors">
                   {post.title}

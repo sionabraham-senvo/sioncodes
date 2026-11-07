@@ -24,10 +24,8 @@
   background-color: hsl(var(--muted) / 0.15);
 }
 
-/* Callouts (applied at runtime in post-body.tsx) */
-.calloutNote,
-.calloutWarning,
-.calloutTip {
+/* Callouts: classes are added at build time by rehypeCallouts in src/lib/markdownToHtml.ts */
+.markdown :global(.callout) {
   border-left-width: 4px;
   border-radius: 0 0.5rem 0.5rem 0;
   padding: 1rem 1.25rem;
@@ -35,25 +33,41 @@
   font-style: normal;
 }
 
-.calloutNote {
+/* Callouts aren't quotes, so drop the curly quotes prose adds to blockquotes */
+.markdown :global(.callout p)::before,
+.markdown :global(.callout p)::after {
+  content: none;
+}
+
+.markdown :global(.callout-note) {
   background-color: hsl(var(--accent) / 0.12);
   border-left-color: hsl(var(--accent));
 }
 
-.calloutTip {
+.markdown :global(.callout-tip) {
   background-color: hsl(var(--secondary) / 0.12);
   border-left-color: hsl(var(--secondary));
 }
 
-.calloutWarning {
+.markdown :global(.callout-warning) {
   background-color: hsl(var(--primary) / 0.12);
   border-left-color: hsl(var(--primary));
 }
 
-.calloutHeading {
+.markdown :global(.callout-heading) {
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   margin-bottom: 0.25rem !important;
+}
+
+/* Code blocks: one dark surface instead of the theme's box nested inside prose's box */
+.markdown :global(pre) {
+  background-color: #282c34;
+  padding: 1.1rem 1.25rem;
+}
+.markdown :global(pre code.hljs) {
+  background: transparent;
+  padding: 0;
 }

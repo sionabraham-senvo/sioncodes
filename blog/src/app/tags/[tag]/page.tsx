@@ -1,4 +1,7 @@
-import { getAllPosts } from "@/lib/api";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getAllPosts, getAllTags, tagSlug } from "@/lib/api";
+import { SITE_NAME } from "@/lib/site";
 import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import Footer from "@/app/_components/footer";
@@ -11,48 +14,53 @@ interface TagPageProps {
   }>;
 }
 
+// Only tags returned by generateStaticParams exist; anything else is a 404.
+export const dynamicParams = false;
+
+/** The tag as written in the posts' frontmatter, e.g. "postgresql" -> "PostgreSQL". */
+function findTag(slug: string) {
+  return getAllTags().find((tag) => tagSlug(tag) === slug);
+}
+
 export default async function TagPage({ params }: TagPageProps) {
-  const { tag } = await params;
-  const allPosts = getAllPosts();
+  const { tag: slug } = await params;
+  const tag = findTag(slug);
+  if (!tag) notFound();
 
-  const tagPosts = allPosts.filter((post) => {
-    const postTags = post.tags || [];
-    return postTags.map((t) => t.toLowerCase()).includes(tag.toLowerCase());
-  });
-
-  const formattedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+  const tagPosts = getAllPosts().filter((post) =>
+    (post.tags ?? []).some((t) => tagSlug(t) === slug),
+  );
   const [firstPost, ...restPosts] = tagPosts;
+  const label = `${tag}.`;
 
   return (
     <>
-      <Header />
+      <Header condenseOnScroll condensedBrandText={label} />
       <main>
         <Container>
           <div className="pt-8 md:pt-12 mb-8 md:mb-12">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-2">
               Tag · {tagPosts.length} {tagPosts.length === 1 ? "article" : "articles"}
             </p>
+            {/* Visible on mobile; on desktop the large vertical label next to the hero shows the tag. */}
+            <h1 className="font-serif text-h1-fluid font-semibold tracking-tight md:sr-only">
+              {tag}
+              <span className="text-primary">.</span>
+            </h1>
           </div>
-          {firstPost ? (
-            <>
-              <HeroPost
-                title={firstPost.title}
-                coverImage={firstPost.ogImage.url}
-                date={firstPost.date}
-                author={firstPost.author}
-                slug={firstPost.slug}
-                excerpt={firstPost.excerpt}
-                verticalLabel={`${formattedTag}.`}
-              />
-              {restPosts.length > 0 && (
-                <TagPostsList posts={restPosts} tag={formattedTag} />
-              )}
-            </>
-          ) : (
-            <p className="text-lg text-muted-foreground py-8">
-              No posts found for this tag.
-            </p>
+          {firstPost && (
+            <HeroPost
+              title={firstPost.title}
+              coverImage={firstPost.ogImage.url}
+              date={firstPost.date}
+              author={firstPost.author}
+              slug={firstPost.slug}
+              excerpt={firstPost.excerpt}
+              verticalLabel={label}
+              verticalLabelId="site-hero-mark"
+            />
           )}
+          {restPosts.length > 0 && <TagPostsList posts={restPosts} tag={tag} />}
         </Container>
       </main>
       <Footer />
@@ -60,18 +68,18 @@ export default async function TagPage({ params }: TagPageProps) {
   );
 }
 
+export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
+  const { tag: slug } = await params;
+  const tag = findTag(slug);
+  if (!tag) notFound();
+
+  return {
+    title: `Posts tagged ${tag}`,
+    description: `Articles about ${tag} on ${SITE_NAME}`,
+    alternates: { canonical: `/tags/${slug}` },
+  };
+}
+
 export async function generateStaticParams() {
-  const posts = getAllPosts();
-  const tags = new Set<string>();
-
-  posts.forEach((post) => {
-    const postTags = post.tags || [];
-    postTags.forEach((tag) => {
-      tags.add(tag.toLowerCase());
-    });
-  });
-
-  return Array.from(tags).map((tag) => ({
-    tag: tag,
-  }));
+  return getAllTags().map((tag) => ({ tag: tagSlug(tag) }));
 }

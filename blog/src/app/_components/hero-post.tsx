@@ -11,7 +11,10 @@ type Props = {
   excerpt: string;
   author: Author;
   slug: string;
-  /** Optional vertical wordmark rendered to the left of the card. */
+  /**
+   * Optional vertical wordmark rendered to the left of the card (desktop only). It's
+   * decorative, so the page should also render its own <h1>.
+   */
   verticalLabel?: string;
   /** id forwarded to the vertical label (used by the sticky nav observer). */
   verticalLabelId?: string;
@@ -30,42 +33,51 @@ export function HeroPost({
   const hasLabel = Boolean(verticalLabel);
   const labelEndsWithDot = verticalLabel?.endsWith(".") ?? false;
   const labelBody = labelEndsWithDot ? verticalLabel!.slice(0, -1) : verticalLabel;
+  // Rough length of the label in ems (Source Serif runs up to ~0.56em per character with capitals). The font
+  // size below is capped so the label is never taller than the hero image next to it, which is
+  // about 348px tall at md, 405px at lg and 509px at xl.
+  const labelEms = ((verticalLabel?.length ?? 0) * 0.56).toFixed(2);
 
   return (
-    <section className="relative mb-20 md:mb-28">
+    <section className="relative mb-20 md:mb-28 md:pl-8 lg:pl-10 xl:pl-[3.25rem]">
       {hasLabel && (
-        <h2
+        <div
           id={verticalLabelId}
-          aria-label={verticalLabel}
-          style={{
-            writingMode: "vertical-rl",
-            transform: "rotate(180deg)",
-          }}
-          className="hidden md:block absolute -left-10 lg:-left-14 xl:-left-[4.5rem] top-0 z-20
+          aria-hidden
+          style={
+            {
+              writingMode: "vertical-rl",
+              transform: "rotate(180deg)",
+              "--label-ems": labelEms,
+            } as React.CSSProperties
+          }
+          className="hidden md:block absolute left-0 top-0 z-20
                      font-serif font-semibold leading-none tracking-tighter
                      text-foreground select-none pointer-events-none
-                     text-[5rem] lg:text-[7rem] xl:text-[9rem]"
+                     text-[length:min(4rem,calc(348px/var(--label-ems)))]
+                     lg:text-[length:min(5rem,calc(405px/var(--label-ems)))]
+                     xl:text-[length:min(6.5rem,calc(509px/var(--label-ems)))]"
         >
           {labelBody}
           {labelEndsWithDot && <span className="text-primary">.</span>}
-        </h2>
+        </div>
       )}
       <Link
         href={`/posts/${slug}`}
         className="group flex flex-col relative z-10"
       >
         <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
-          <div className="transition-transform duration-500 group-hover:scale-[1.02]">
-            <CoverImage title={title} src={coverImage} />
+          <div className="relative aspect-[4/3] sm:aspect-[2/1] lg:aspect-[21/9] transition-transform duration-500 group-hover:scale-[1.02]">
+            <CoverImage title={title} src={coverImage} priority fill />
           </div>
         </div>
         <div className="relative z-10 -mt-16 md:-mt-24 mx-4 md:mx-10 rounded-xl bg-card border border-border shadow-lg px-6 md:px-10 pt-6 md:pt-8 pb-6 md:pb-10 group-hover:shadow-xl transition-shadow duration-300">
           <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
             <span className="h-px w-6 bg-primary" /> Featured
           </span>
-          <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-card-foreground group-hover:text-primary transition-colors">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-card-foreground group-hover:text-primary transition-colors">
             {title}
-          </h3>
+          </h2>
           <p className="mt-4 text-base md:text-lg leading-relaxed text-muted-foreground max-w-3xl">
             {excerpt}
           </p>

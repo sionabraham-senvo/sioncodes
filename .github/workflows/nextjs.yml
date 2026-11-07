@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           cache: npm
           cache-dependency-path: blog/package-lock.json
       - name: Setup Pages
@@ -48,7 +48,7 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
       - name: Build with Next.js
-        run: npx next build
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

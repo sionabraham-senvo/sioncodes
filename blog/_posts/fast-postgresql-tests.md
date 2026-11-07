@@ -176,6 +176,8 @@ from other tests. This is scoped to the function, meaning that it will be create
 
 ##  Results
 
+**After:** `flush()` and `testing.postgresql`
+
 ```shell
 ============================= test session starts ==============================
 collecting ... collected 11 items
@@ -195,7 +197,7 @@ test_user_repository.py::test_patch_user_not_found
 ======================= 11 passed, 0 warnings in 1.30s =========================
 ```
 
-vs
+**Before:** `commit()` and PostgreSQL in Docker
 
 ```shell
 ============================= test session starts ==============================
@@ -215,6 +217,8 @@ test_user_repository.py::test_patch_user_not_found
 
 ======================= 11 passed, 0 warnings in 8.45s =========================
 ```
+
+Same 11 tests, 1.30s instead of 8.45s: roughly 6.5x faster.
 
 ##  Conclusion
 

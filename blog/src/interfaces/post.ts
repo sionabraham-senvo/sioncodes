@@ -12,6 +12,9 @@ export type Post = {
     url: string;
   };
   content: string;
-  preview?: boolean;
+  /** Estimated minutes to read, derived from the word count. */
+  readingTime: number;
+  /** Shown in `next dev`, left out of production builds. */
+  draft?: boolean;
   tags?: string[];
 };

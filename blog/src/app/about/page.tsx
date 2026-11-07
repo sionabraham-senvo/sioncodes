@@ -1,14 +1,21 @@
 import Container from "@/app/_components/container";
 import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
+import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { getImagePath } from "@/lib/url";
+import { EMAIL, SOCIAL_LINKS } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Siôn Abraham is a backend engineer writing about Python, PostgreSQL, FastAPI and building better software.",
+  alternates: { canonical: "/about" },
+};
+
+const connectLinks = [...SOCIAL_LINKS, { label: "Email", href: `mailto:${EMAIL}` }];
 
 const skills = [
-  "Python", "TypeScript", "PostgreSQL", "SQLAlchemy", "FastAPI",
-  "React", "Docker", "AWS", "Testing", "System Design",
-  "Repository Pattern", "Clean Architecture",
+  "Python", "PostgreSQL", "MongoDB", "DocumentDB", "SQLAlchemy", "FastAPI", "Docker", "Kubernetes", "S3", "RDS", "Sentry", "AWS", "Hetzner"
 ];
 
 export default function AboutPage() {
@@ -27,7 +34,7 @@ export default function AboutPage() {
               <aside className="lg:col-span-1">
                 <div className="rounded-2xl overflow-hidden border border-border shadow-sm mb-6">
                   <Image
-                    src={getImagePath("/assets/blog/authors/sion_big.webp")}
+                    src="/assets/blog/authors/sion_big.webp"
                     alt="Siôn Abraham"
                     width={500}
                     height={500}
@@ -40,24 +47,23 @@ export default function AboutPage() {
                     Connect
                   </h2>
                   <ul className="space-y-2">
-                    {[
-                      { label: "GitHub", href: "https://github.com/sionabraham-senvo" },
-                      { label: "LinkedIn", href: "https://www.linkedin.com/in/sionabraham/" },
-                      { label: "Email", href: "mailto:sionabraham95@gmail.com" },
-                    ].map((link) => (
-                      <li key={link.label}>
-                        <Link
-                          href={link.href}
-                          target="_blank"
-                          className="flex items-center justify-between text-sm font-medium text-foreground hover:text-primary transition-colors group"
-                        >
-                          <span>{link.label}</span>
-                          <span aria-hidden className="text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all">
-                            →
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
+                    {connectLinks.map((link) => {
+                      const isExternal = link.href.startsWith("http");
+                      return (
+                        <li key={link.label}>
+                          <a
+                            href={link.href}
+                            {...(isExternal && { target: "_blank", rel: "noopener noreferrer" })}
+                            className="flex items-center justify-between text-sm font-medium text-foreground hover:text-primary transition-colors group"
+                          >
+                            <span>{link.label}</span>
+                            <span aria-hidden className="text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all">
+                              →
+                            </span>
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </aside>
@@ -65,12 +71,11 @@ export default function AboutPage() {
               <article className="lg:col-span-2 space-y-8">
                 <div className="font-serif text-lg md:text-xl leading-relaxed text-foreground space-y-5">
                   <p>
-                    I&apos;m a software engineer with 8+ years building scalable applications,
-                    specializing in backend development with Python, TypeScript, and database
-                    optimization.
+                    I&apos;m a software engineer with a decade of experience building scalable applications,
+                    specializing in backend development with Python, PostgreSQL, and FastAPI.
                   </p>
                   <blockquote className="border-l-4 border-primary pl-5 italic text-muted-foreground">
-                    Great software isn&apos;t just about code — it&apos;s about creating elegant
+                    Great software isn&apos;t just about code, it&apos;s about creating elegant
                     solutions to complex problems.
                   </blockquote>
                   <p>
@@ -80,11 +85,11 @@ export default function AboutPage() {
                   </p>
                   <p>
                     This blog is where I share insights, tutorials, and lessons from the trenches.
-                    My aim is to make complex technical concepts accessible.
+                    I aim to demystify complex topics and help developers build better software, one post at a time.
                   </p>
                   <p>
-                    Off-screen, you&apos;ll find me with my dog, drinking coffee, or driving my
-                    Volvo somewhere.
+                    Off-screen, you&apos;ll find me with my family, drinking coffee, or exploring the outdoors. Talk
+                    to me about books, games, and software!
                   </p>
                 </div>
 
@@ -109,8 +114,21 @@ export default function AboutPage() {
                     Business inquiries
                   </h3>
                   <p className="text-base text-foreground/90">
-                    Open to technical tutorials, conference speaking, and one-on-one coaching.
-                    Reach out via email to discuss collaboration.
+                    Feel free to contact me on LinkedIn. Happy to discuss consulting, freelance work, or potential
+                    collaborations. I&apos;m always open to new opportunities and connections in the software
+                    development world.
+                  </p>
+                </div>
+                <div className="pt-8 border-t border-border">
+                  <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
+                    Disclaimer
+                  </h3>
+                  <p className="text-base text-foreground/90">
+                    The views expressed on this blog are my own and do not necessarily reflect the views of any
+                    employer or organization I am affiliated with. This website was generated partially using AI tools,
+                    though the content is entirely my own work and reflects my personal insights and experiences in
+                    software development. I&apos;m crappy with grammar and spelling, so I do use AI and spellcheckers
+                    to help with that, but I have never posted, and never will post, AI-generated content on this blog.
                   </p>
                 </div>
               </article>

@@ -1,130 +1,137 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { createUrl } from "@/lib/url";
+import cn from "classnames";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
-interface MenuBarProps {
-  items?: string[];
-}
+export type NavLink = { label: string; href: string };
 
-const MenuBar = ({ items = ["Home", "About"] }: MenuBarProps) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [screenSize, setScreenSize] = useState<"small" | "medium" | "large">("large");
+type Props = {
+  /** Tag pages, shown between Home and About. */
+  tagLinks: NavLink[];
+};
+
+// Slots in the bar (Home + tags + About) per breakpoint. Phones always put tags in the dropdown.
+const MEDIUM_MAX_VISIBLE = 4;
+const LARGE_MAX_VISIBLE = 6;
+
+const itemClass =
+  "inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors";
+
+export default function MenuBar({ tagLinks }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLLIElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const processItems = () => {
-    const middleItems = items.filter((item) => item !== "Home" && item !== "About");
-    return ["Home", ...middleItems, "About"];
+  // How many tags fit in the bar. When they don't all fit, Home, About and the
+  // "More" button take three slots and the remaining tags go into the dropdown.
+  const inlineTagCount = (maxVisible: number) =>
+    tagLinks.length + 2 <= maxVisible ? tagLinks.length : Math.max(0, maxVisible - 3);
+  const mediumInline = inlineTagCount(MEDIUM_MAX_VISIBLE);
+  const largeInline = inlineTagCount(LARGE_MAX_VISIBLE);
+  const mediumOverflows = mediumInline < tagLinks.length;
+  const largeOverflows = largeInline < tagLinks.length;
+
+  // Visibility is done with breakpoint classes rather than JS so the static HTML is
+  // already correct on first paint.
+  const inlineClass = (index: number) => {
+    if (index < mediumInline) return "hidden sm:block";
+    if (index < largeInline) return "hidden lg:block";
+    return null;
   };
-
-  const allItems = processItems();
+  const dropdownClass = (index: number) => {
+    if (index < mediumInline) return "sm:hidden";
+    if (index < largeInline) return "lg:hidden";
+    return "";
+  };
+  const moreButtonClass = !mediumOverflows ? "sm:hidden" : !largeOverflows ? "lg:hidden" : "";
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 640) setScreenSize("small");
-      else if (width < 1024) setScreenSize("medium");
-      else setScreenSize("large");
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    if (!isOpen) return;
 
-  let visibleItems: string[];
-  let dropdownItems: string[];
-
-  if (screenSize === "small") {
-    visibleItems = [allItems[0], allItems[allItems.length - 1]];
-    dropdownItems = allItems.slice(1, allItems.length - 1);
-  } else if (screenSize === "medium") {
-    const MED_MAX_VISIBLE = 4;
-    if (allItems.length <= MED_MAX_VISIBLE) {
-      visibleItems = allItems;
-      dropdownItems = [];
-    } else {
-      visibleItems = [
-        allItems[0],
-        ...allItems.slice(1, MED_MAX_VISIBLE - 2),
-        allItems[allItems.length - 1],
-      ];
-      dropdownItems = allItems.slice(MED_MAX_VISIBLE - 2, allItems.length - 1);
-    }
-  } else {
-    const LARGE_MAX_VISIBLE = 6;
-    if (allItems.length <= LARGE_MAX_VISIBLE) {
-      visibleItems = allItems;
-      dropdownItems = [];
-    } else {
-      visibleItems = [
-        allItems[0],
-        ...allItems.slice(1, LARGE_MAX_VISIBLE - 2),
-        allItems[allItems.length - 1],
-      ];
-      dropdownItems = allItems.slice(LARGE_MAX_VISIBLE - 2, allItems.length - 1);
-    }
-  }
-
-  const getItemUrl = (item: string): string => {
-    if (item.toLowerCase() === "home") return createUrl("/");
-    if (item.toLowerCase() === "about") return createUrl("/about");
-    return createUrl(`/tags/${item.toLowerCase()}`);
-  };
-
-  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
+      if (!dropdownRef.current?.contains(event.target as Node)) setIsOpen(false);
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        buttonRef.current?.focus();
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   return (
-    <nav>
+    <nav aria-label="Main">
       <ul className="flex flex-wrap items-center justify-center md:justify-end gap-1 rounded-full border border-border bg-card/60 backdrop-blur-md px-2 py-1.5">
-        {visibleItems.map((item) => (
-          <li key={item}>
-            <a
-              href={getItemUrl(item)}
-              className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
-            >
-              {item}
-            </a>
-          </li>
-        ))}
+        <li className="hidden sm:block">
+          <Link href="/" className={itemClass}>
+            Home
+          </Link>
+        </li>
 
-        {dropdownItems.length > 0 && (
-          <li className="relative" ref={dropdownRef}>
+        {tagLinks.map((link, index) => {
+          const visibility = inlineClass(index);
+          if (!visibility) return null;
+          return (
+            <li key={link.href} className={visibility}>
+              <Link href={link.href} className={itemClass}>
+                {link.label}
+              </Link>
+            </li>
+          );
+        })}
+
+        <li>
+          <Link href="/about" className={itemClass}>
+            About
+          </Link>
+        </li>
+
+        {tagLinks.length > 0 && (
+          <li className={cn("relative", moreButtonClass)} ref={dropdownRef}>
             <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
-              aria-label="More menu items"
-              aria-expanded={isDropdownOpen}
+              ref={buttonRef}
+              type="button"
+              onClick={() => setIsOpen((open) => !open)}
+              className={itemClass}
+              aria-expanded={isOpen}
+              aria-controls="nav-more-menu"
             >
-              {screenSize === "small" ? "Menu" : "More"}
-              <span aria-hidden className="ml-1 text-xs">▾</span>
+              <span className="sm:hidden">Menu</span>
+              <span className="hidden sm:inline">More</span>
+              <span aria-hidden className="ml-1 text-xs">
+                ▾
+              </span>
             </button>
 
-            {isDropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 min-w-[10rem] rounded-xl border border-border bg-card shadow-lg py-2 z-20">
-                {dropdownItems.map((item) => (
-                  <a
-                    key={item}
-                    href={getItemUrl(item)}
-                    className="block px-4 py-2 text-sm text-foreground hover:bg-muted/50 transition-colors whitespace-nowrap"
-                  >
-                    {item}
-                  </a>
+            {isOpen && (
+              <ul
+                id="nav-more-menu"
+                className="absolute top-full right-0 mt-2 min-w-[10rem] rounded-xl border border-border bg-card shadow-lg py-2 z-20"
+              >
+                {tagLinks.map((link, index) => (
+                  <li key={link.href} className={dropdownClass(index)}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="block px-4 py-2 text-sm text-foreground hover:bg-muted/50 transition-colors whitespace-nowrap"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
           </li>
         )}
       </ul>
     </nav>
   );
-};
-
-export default MenuBar;
+}
