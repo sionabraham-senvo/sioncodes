@@ -1,6 +1,6 @@
 ---
 title: "You Were Never Hired to Write Code"
-excerpt: "AI didn't change engineering. It made the old problems impossible to hide."
+excerpt: "AI hasn't changed how we do engineering, it has only highlighted what we've been doing wrong all this time."
 coverImage: "/assets/blog/you-were-not-hired-to-write-code/cover_small.webp"
 thumbnailImage: "/assets/blog/you-were-not-hired-to-write-code/cover_thumbnail.webp"
 date: "2026-11-07T16:01:37.000Z"
@@ -54,11 +54,15 @@ What I see is multiplication. Roughly:
 ```text
 value delivered = judgement × output
 
-                         before AI          with AI (output × 10)
-                         ---------          ---------------------
-strong judgement   (+3)  ███  +3            ██████████████████████████████  +30
-no judgement        (0)  ·     0            ·                                 0
-bad judgement      (-1)  ▒    -1            ▒▒▒▒▒▒▒▒▒▒  -10
+before AI
+strong judgement   +3 × 1  =  +3   +++
+no judgement        0 × 1  =   0
+bad judgement      -1 × 1  =  -1   -
+
+with AI
+strong judgement   +3 × 10 = +30   ++++++++++++++++++++++++++++++
+no judgement        0 × 10 =   0
+bad judgement      -1 × 10 = -10   ----------
 ```
 
 AI cranks the output up by ten, but your judgement stays exactly where it was. And that's where it gets interesting..

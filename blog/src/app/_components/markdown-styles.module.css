@@ -67,6 +67,9 @@
   background-color: #282c34;
   padding: 1.1rem 1.25rem;
 }
+/* All block code, including plain-text blocks that highlight.js skips (no .hljs class),
+   so prose's inline-code padding doesn't indent the first line. */
+.markdown :global(pre code),
 .markdown :global(pre code.hljs) {
   background: transparent;
   padding: 0;
