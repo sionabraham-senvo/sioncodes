@@ -126,9 +126,8 @@ export default function AboutPage() {
                   <p className="text-base text-foreground/90">
                     The views expressed on this blog are my own and do not necessarily reflect the views of any
                     employer or organization I am affiliated with. This website was generated partially using AI tools,
-                    though the content is entirely my own work and reflects my personal insights and experiences in
-                    software development. I&apos;m crappy with grammar and spelling, so I do use AI and spellcheckers
-                    to help with that, but I have never posted, and never will post, AI-generated content on this blog.
+                    and the posts reflect my personal insights and experiences in software development. I&apos;m
+                    crappy with grammar and spelling, so I do use AI and spellcheckers to help with that.
                   </p>
                 </div>
               </article>
