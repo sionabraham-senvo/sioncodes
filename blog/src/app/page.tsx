@@ -29,9 +29,10 @@ export default function Index() {
               title={heroPost.title}
               coverImage={heroPost.ogImage.url}
               date={heroPost.date}
-              author={heroPost.author}
               slug={heroPost.slug}
               excerpt={heroPost.excerpt}
+              readingTime={heroPost.readingTime}
+              tags={heroPost.tags}
               verticalLabel={SITE_NAME}
               verticalLabelId="site-hero-mark"
             />

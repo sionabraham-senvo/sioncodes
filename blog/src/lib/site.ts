@@ -13,3 +13,6 @@ export const SOCIAL_LINKS = [
 ] as const;
 
 export const EMAIL = "sionabraham95@gmail.com";
+
+/** Follows "Written by Siôn Abraham," at the end of each post. */
+export const AUTHOR_BIO = "a backend engineer in Berlin who works with Python, PostgreSQL and FastAPI.";

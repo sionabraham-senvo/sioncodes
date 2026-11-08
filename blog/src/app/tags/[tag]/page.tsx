@@ -53,14 +53,16 @@ export default async function TagPage({ params }: TagPageProps) {
               title={firstPost.title}
               coverImage={firstPost.ogImage.url}
               date={firstPost.date}
-              author={firstPost.author}
               slug={firstPost.slug}
               excerpt={firstPost.excerpt}
+              readingTime={firstPost.readingTime}
+              tags={firstPost.tags}
+              label={`Latest in ${tag}`}
               verticalLabel={label}
               verticalLabelId="site-hero-mark"
             />
           )}
-          {restPosts.length > 0 && <TagPostsList posts={restPosts} tag={tag} />}
+          {restPosts.length > 0 && <TagPostsList posts={restPosts} />}
         </Container>
       </main>
       <Footer />

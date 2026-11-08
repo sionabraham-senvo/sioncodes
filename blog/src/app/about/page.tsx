@@ -3,6 +3,8 @@ import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+import { getAllTags, tagSlug } from "@/lib/api";
 import { EMAIL, SOCIAL_LINKS } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,12 +15,19 @@ export const metadata: Metadata = {
 };
 
 const connectLinks = [...SOCIAL_LINKS, { label: "Email", href: `mailto:${EMAIL}` }];
+const linkedIn = SOCIAL_LINKS.find((link) => link.label === "LinkedIn");
 
 const skills = [
   "Python", "PostgreSQL", "MongoDB", "DocumentDB", "SQLAlchemy", "FastAPI", "Docker", "Kubernetes", "S3", "RDS", "Sentry", "AWS", "Hetzner"
 ];
 
+const skillClass =
+  "inline-flex items-center px-3 py-1 rounded-full border border-border bg-card text-sm text-foreground";
+
 export default function AboutPage() {
+  // Skills that are also tags link to their posts.
+  const tagSlugs = new Set(getAllTags().map(tagSlug));
+
   return (
     <>
       <Header />
@@ -98,14 +107,24 @@ export default function AboutPage() {
                     Skills &amp; expertise
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="inline-flex items-center px-3 py-1 rounded-full border border-border bg-card text-sm text-foreground"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                    {skills.map((skill) =>
+                      tagSlugs.has(tagSlug(skill)) ? (
+                        <Link
+                          key={skill}
+                          href={`/tags/${tagSlug(skill)}`}
+                          className={`${skillClass} hover:border-primary hover:text-primary transition-colors`}
+                        >
+                          {skill}
+                          <span aria-hidden className="ml-1.5 text-muted-foreground">
+                            →
+                          </span>
+                        </Link>
+                      ) : (
+                        <span key={skill} className={skillClass}>
+                          {skill}
+                        </span>
+                      ),
+                    )}
                   </div>
                 </div>
 
@@ -114,9 +133,16 @@ export default function AboutPage() {
                     Business inquiries
                   </h3>
                   <p className="text-base text-foreground/90">
-                    Feel free to contact me on LinkedIn. Happy to discuss consulting, freelance work, or potential
-                    collaborations. I&apos;m always open to new opportunities and connections in the software
-                    development world.
+                    For consulting, freelance work or collaborations, message me on{" "}
+                    <a
+                      href={linkedIn?.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary underline underline-offset-2 hover:opacity-80"
+                    >
+                      LinkedIn
+                    </a>
+                    . I&apos;m always open to new opportunities and connections in the software development world.
                   </p>
                 </div>
                 <div className="pt-8 border-t border-border">

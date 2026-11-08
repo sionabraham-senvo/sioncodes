@@ -1,7 +1,8 @@
 import Image from "next/image";
 
+// Covers always sit next to the post title, so they are decorative (alt="") and screen
+// readers don't hear the title twice.
 type Props = {
-  title: string;
   src: string;
   /** Set for the above-the-fold image on a page so the browser fetches it first. */
   priority?: boolean;
@@ -9,7 +10,7 @@ type Props = {
   fill?: boolean;
 };
 
-const CoverImage = ({ title, src, priority = false, fill = false }: Props) => {
+const CoverImage = ({ src, priority = false, fill = false }: Props) => {
   // Drafts may not have a cover yet.
   if (!src) return null;
 
@@ -17,7 +18,7 @@ const CoverImage = ({ title, src, priority = false, fill = false }: Props) => {
     return (
       <Image
         src={src}
-        alt={`Cover Image for ${title}`}
+        alt=""
         fill
         sizes="100vw"
         priority={priority}
@@ -29,7 +30,7 @@ const CoverImage = ({ title, src, priority = false, fill = false }: Props) => {
   return (
     <Image
       src={src}
-      alt={`Cover Image for ${title}`}
+      alt=""
       className="w-full h-auto block"
       width={1300}
       height={630}

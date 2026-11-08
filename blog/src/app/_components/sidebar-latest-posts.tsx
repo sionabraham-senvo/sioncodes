@@ -28,7 +28,7 @@ export function SidebarLatestPosts({ posts, limit = 5 }: Props) {
                   {thumbnailSrc && (
                     <Image
                       src={thumbnailSrc}
-                      alt={`Thumbnail for ${post.title}`}
+                      alt=""
                       width={56}
                       height={56}
                       className="object-cover w-14 h-14 group-hover:scale-105 transition-transform duration-300"

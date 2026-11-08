@@ -19,6 +19,12 @@
   color: hsl(var(--primary));
 }
 
+/* all: unset above also removes the browser's focus outline, so put one back. */
+.switch:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
 .icon {
   display: none;
   width: 1.05rem;

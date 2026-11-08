@@ -7,8 +7,10 @@ import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import Footer from "@/app/_components/footer";
 import { PostBody } from "@/app/_components/post-body";
+import { PostEnd } from "@/app/_components/post-end";
 import { PostHeader } from "@/app/_components/post-header";
 import { SidebarLatestPosts } from "@/app/_components/sidebar-latest-posts";
+import { TableOfContents } from "@/app/_components/table-of-contents";
 
 type Params = {
   params: Promise<{
@@ -19,16 +21,25 @@ type Params = {
 // Only the posts returned by generateStaticParams exist; anything else is a 404.
 export const dynamicParams = false;
 
+/** Posts with fewer sections than this don't get an "On this page" list. */
+const MIN_HEADINGS_FOR_CONTENTS = 3;
+
 export default async function Post(props: Params) {
   const { slug } = await props.params;
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
-  const latestPosts = getAllPosts().filter((p) => p.slug !== post.slug);
-  const content = await markdownToHtml(post.content || "");
+  const allPosts = getAllPosts();
+  const latestPosts = allPosts.filter((p) => p.slug !== post.slug);
+  // Suggest the next older post; from the oldest post, wrap round to the newest.
+  const index = allPosts.findIndex((p) => p.slug === post.slug);
+  const nextPost = allPosts[index + 1] ?? latestPosts[0] ?? null;
+  const { html: content, headings } = await markdownToHtml(post.content || "");
+  const showContents = headings.length >= MIN_HEADINGS_FOR_CONTENTS;
 
   return (
     <>
+      <div className="scroll-progress" aria-hidden="true" />
       <Header />
       <main>
         <Container>
@@ -48,8 +59,15 @@ export default async function Post(props: Params) {
             <div className="flex flex-col lg:flex-row lg:justify-between lg:gap-16 mb-24">
               <div className="min-w-0 flex-1 lg:max-w-[42rem]">
                 <PostBody content={content} />
+                <PostEnd author={post.author} next={nextPost} />
               </div>
-              <aside className="lg:w-64 shrink-0 mt-12 lg:mt-0 lg:sticky lg:top-24 self-start z-0">
+              {/* Scrolls on its own if the contents list and latest posts are taller than the window. */}
+              <aside className="lg:w-64 shrink-0 mt-12 lg:mt-0 lg:sticky lg:top-24 self-start z-0 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto space-y-6">
+                {showContents && (
+                  <div className="hidden lg:block">
+                    <TableOfContents headings={headings} />
+                  </div>
+                )}
                 <SidebarLatestPosts posts={latestPosts} />
               </aside>
             </div>

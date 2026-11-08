@@ -1,16 +1,17 @@
 import CoverImage from "@/app/_components/cover-image";
-import { type Author } from "@/interfaces/author";
-import Image from "next/image";
 import Link from "next/link";
-import DateFormatter from "./date-formatter";
+import { PostMeta, TagChips } from "./post-meta";
 
 type Props = {
   title: string;
   coverImage: string;
   date: string;
   excerpt: string;
-  author: Author;
   slug: string;
+  readingTime: number;
+  tags?: string[];
+  /** Small label above the title, e.g. "Featured" on the home page or "Latest in Python" on a tag page. */
+  label?: string;
   /**
    * Optional vertical wordmark rendered to the left of the card (desktop only). It's
    * decorative, so the page should also render its own <h1>.
@@ -25,8 +26,10 @@ export function HeroPost({
   coverImage,
   date,
   excerpt,
-  author,
   slug,
+  readingTime,
+  tags,
+  label = "Featured",
   verticalLabel,
   verticalLabelId,
 }: Props) {
@@ -68,12 +71,12 @@ export function HeroPost({
       >
         <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
           <div className="relative aspect-[4/3] sm:aspect-[2/1] lg:aspect-[21/9] transition-transform duration-500 group-hover:scale-[1.02]">
-            <CoverImage title={title} src={coverImage} priority fill />
+            <CoverImage src={coverImage} priority fill />
           </div>
         </div>
         <div className="relative z-10 -mt-16 md:-mt-24 mx-4 md:mx-10 rounded-xl bg-card border border-border shadow-lg px-6 md:px-10 pt-6 md:pt-8 pb-6 md:pb-10 group-hover:shadow-xl transition-shadow duration-300">
           <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
-            <span className="h-px w-6 bg-primary" /> Featured
+            <span className="h-px w-6 bg-primary" /> {label}
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-card-foreground group-hover:text-primary transition-colors">
             {title}
@@ -81,20 +84,9 @@ export function HeroPost({
           <p className="mt-4 text-base md:text-lg leading-relaxed text-muted-foreground max-w-3xl">
             {excerpt}
           </p>
-          <div className="mt-6 flex items-center gap-3">
-            <Image
-              src={author.picture}
-              alt={author.name}
-              width={48}
-              height={48}
-              className="w-12 h-12 rounded-full ring-2 ring-border object-cover"
-            />
-            <div className="leading-tight">
-              <div className="text-sm font-medium text-foreground">{author.name}</div>
-              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mt-0.5">
-                <DateFormatter dateString={date} />
-              </div>
-            </div>
+          <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
+            <PostMeta date={date} readingTime={readingTime} />
+            <TagChips tags={tags} />
           </div>
         </div>
       </Link>

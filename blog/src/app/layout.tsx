@@ -92,7 +92,6 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         <ThemeScript />
-        <div className="scroll-progress" aria-hidden="true" />
         <UkraineDonationBanner />
         <div className="min-h-screen">{children}</div>
       </body>

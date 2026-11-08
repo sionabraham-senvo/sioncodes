@@ -2,12 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import MenuBar, { type NavLink } from "./menu-bar";
+import MenuBar from "./menu-bar";
 import { ThemeToggle } from "./theme-switcher";
 import { SITE_NAME } from "@/lib/site";
 
 type Props = {
-  tagLinks: NavLink[];
   showBrand?: boolean;
   /** Watch the #site-hero-mark element to drive the brand reveal/swap. */
   condenseOnScroll?: boolean;
@@ -29,7 +28,6 @@ const renderBrand = (text: string) => {
 };
 
 export default function StickyNav({
-  tagLinks,
   showBrand = true,
   condenseOnScroll = false,
   brandText = SITE_NAME,
@@ -94,7 +92,7 @@ export default function StickyNav({
             </Link>
           ))}
         <div className="ml-auto flex items-center gap-3">
-          <MenuBar tagLinks={tagLinks} />
+          <MenuBar />
           <ThemeToggle />
         </div>
       </div>
