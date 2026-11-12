@@ -3,7 +3,7 @@ title: "How to Build the Worst Possible Tracking API (and Make Your Customers Ha
 excerpt: "A step-by-step playbook for parcel carriers who want their integration partners to suffer. Every rule comes from a real API; only the names have been removed."
 coverImage: "/assets/blog/worst-possible-tracking-api/cover_small.webp"
 thumbnailImage: "/assets/blog/worst-possible-tracking-api/cover_thumbnail.webp"
-date: "2026-11-08T17:53:33.000Z"
+date: "2026-11-12T17:48:40.000Z"
 author:
   name: Siôn Abraham
   picture: "/assets/blog/authors/sion_small.webp"
@@ -19,11 +19,11 @@ So you're a parcel carrier, and you've been asked to build a tracking API. Congr
 golden opportunity to ruin the week of thousands of engineers you will never meet, and actively damage your nation's
 GDP by wasting measurable amounts of people's time.
 
-I work at Senvo, where we audit carrier invoices and claim money back when carriers miss what they promised. To do
-that, we track every parcel our customers send across hundreds of carriers, and someone has to plug all of those tracking
-APIs in. That someone is chief plumber (yours truly). After two and a half years of it, I'm convinced every carrier is
-working from the same playbook. Today I'm publishing it, so the next carrier doesn't have to work it all out from
-scratch.
+I work at [Senvo](https://www.senvo.ai/), where we audit parcel carrier invoices and recover overcharges and eligible
+refunds for shippers. That means turning inconsistent tracking data from hundreds of carriers into reliable shipment
+records, and someone has to plug all of those tracking APIs in. That someone is chief plumber (yours truly). After two
+and a half years of it, I'm convinced every carrier is working from the same playbook. Today I'm publishing it, so the
+next carrier doesn't have to work it all out from scratch.
 
 > **Note**
 >
@@ -337,6 +337,14 @@ Follow all ten rules, and here's what your customers will end up building just t
 
 That's where the GDP from the first paragraph went.
 
----
-
 If you recognise your API in this post: it's not about you. It's about all of you.
+
+## The serious bit
+
+Jokes aside, this is the job. Every refund we recover depends on the tracking being right: when a parcel was handed
+over, when it was delivered, and whether the service it travelled on matches the one on the invoice. So at
+[Senvo](https://www.senvo.ai/) we
+take tracking from hundreds of carriers, in every shape described above, and turn it into one reliable record per
+shipment: one set of statuses, timestamps you can actually compare, and invoice lines matched to the right parcel. Our
+customers don't have to build any of the list above themselves, and when we tell a carrier a parcel was late, we can
+prove it.
