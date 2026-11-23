@@ -3,8 +3,8 @@ import DateFormatter from "@/app/_components/date-formatter";
 import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
 import { JsonLd } from "@/app/_components/json-ld";
+import Picture from "@/app/_components/picture";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { getAllPosts, getAllTags, tagSlug } from "@/lib/api";
 import { AUTHOR_NAME, EMAIL, SITE_URL, SOCIAL_LINKS } from "@/lib/site";
@@ -74,7 +74,7 @@ export default function AboutPage() {
           "@type": "Person",
           name: AUTHOR_NAME,
           url: `${SITE_URL}/about`,
-          image: `${SITE_URL}/assets/blog/authors/sion_big.webp`,
+          image: `${SITE_URL}/assets/blog/authors/sion_big.jpg`,
           sameAs: SOCIAL_LINKS.map((link) => link.href),
         }}
       />
@@ -94,8 +94,8 @@ export default function AboutPage() {
                 <p className="mt-3 text-sm text-muted-foreground">Said like &ldquo;Shawn&rdquo;.</p>
               </div>
               <div className="w-20 sm:w-28 md:w-60 md:row-span-2 overflow-hidden rounded-xl md:rounded-2xl border border-border shadow-sm">
-                <Image
-                  src="/assets/blog/authors/sion_big.webp"
+                <Picture
+                  src="/assets/blog/authors/sion_big.jpg"
                   alt="Siôn on a sofa, hugging a dog"
                   width={1200}
                   height={1600}

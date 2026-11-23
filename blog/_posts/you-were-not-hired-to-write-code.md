@@ -1,14 +1,14 @@
 ---
 title: "You Were Never Hired to Write Code"
 excerpt: "AI hasn't changed how we do engineering, it has only highlighted what we've been doing wrong all this time."
-coverImage: "/assets/blog/you-were-not-hired-to-write-code/cover_small.webp"
-thumbnailImage: "/assets/blog/you-were-not-hired-to-write-code/cover_thumbnail.webp"
+coverImage: "/assets/blog/you-were-not-hired-to-write-code/cover_small.jpg"
+thumbnailImage: "/assets/blog/you-were-not-hired-to-write-code/cover_thumbnail.jpg"
 date: "2026-11-07T16:01:37.000Z"
 author:
   name: Siôn Abraham
-  picture: "/assets/blog/authors/sion_small.webp"
+  picture: "/assets/blog/authors/sion_small.jpg"
 ogImage:
-  url: "/assets/blog/you-were-not-hired-to-write-code/cover_big.webp"
+  url: "/assets/blog/you-were-not-hired-to-write-code/cover_big.jpg"
 tags: 
   - Opinion
   - AI

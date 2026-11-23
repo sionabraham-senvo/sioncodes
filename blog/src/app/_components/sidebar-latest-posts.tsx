@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Post } from "@/interfaces/post";
+import Picture from "./picture";
 
 type Props = {
   posts: Post[];
@@ -36,7 +36,7 @@ export function SidebarLatestPosts({ posts, limit = 5 }: Props) {
                     </span>
                   )}
                   {thumbnailSrc && (
-                    <Image
+                    <Picture
                       src={thumbnailSrc}
                       alt=""
                       width={56}

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Picture from "./picture";
 
 type Props = {
   name: string;
@@ -8,7 +8,7 @@ type Props = {
 const Avatar = ({ name, picture }: Props) => {
   return (
     <div className="flex items-center gap-3">
-      <Image
+      <Picture
         src={picture}
         alt=""
         width={40}

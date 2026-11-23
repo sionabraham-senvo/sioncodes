@@ -1,14 +1,14 @@
 ---
 title: "How to Build the Worst Possible Tracking API (and Make Your Customers Hate You)"
 excerpt: "A step-by-step playbook for parcel carriers who want their integration partners to suffer. Every rule comes from a real API; only the names have been removed."
-coverImage: "/assets/blog/worst-possible-tracking-api/cover_small.webp"
-thumbnailImage: "/assets/blog/worst-possible-tracking-api/cover_thumbnail.webp"
+coverImage: "/assets/blog/worst-possible-tracking-api/cover_small.jpg"
+thumbnailImage: "/assets/blog/worst-possible-tracking-api/cover_thumbnail.jpg"
 date: "2026-11-12T17:48:40.000Z"
 author:
   name: Siôn Abraham
-  picture: "/assets/blog/authors/sion_small.webp"
+  picture: "/assets/blog/authors/sion_small.jpg"
 ogImage:
-  url: "/assets/blog/worst-possible-tracking-api/cover_big.webp"
+  url: "/assets/blog/worst-possible-tracking-api/cover_big.jpg"
 coverFit: contain
 tags:
   - Opinion

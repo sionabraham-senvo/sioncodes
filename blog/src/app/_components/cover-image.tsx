@@ -1,6 +1,6 @@
-import Image from "next/image";
 import cn from "classnames";
 import { type CoverFit } from "@/interfaces/post";
+import Picture from "./picture";
 
 // Covers always sit next to the post title, so they are decorative (alt="") and screen
 // readers don't hear the title twice.
@@ -26,7 +26,7 @@ const CoverImage = ({ src, priority = false, fill = false, fit = "cover", classN
   if (fill && fit === "contain") {
     return (
       <>
-        <Image
+        <Picture
           src={src}
           alt=""
           aria-hidden
@@ -34,7 +34,7 @@ const CoverImage = ({ src, priority = false, fill = false, fit = "cover", classN
           sizes="100vw"
           className="object-cover scale-125 blur-2xl brightness-75"
         />
-        <Image
+        <Picture
           src={src}
           alt=""
           fill
@@ -48,7 +48,7 @@ const CoverImage = ({ src, priority = false, fill = false, fit = "cover", classN
 
   if (fill) {
     return (
-      <Image
+      <Picture
         src={src}
         alt=""
         fill
@@ -60,7 +60,7 @@ const CoverImage = ({ src, priority = false, fill = false, fit = "cover", classN
   }
 
   return (
-    <Image
+    <Picture
       src={src}
       alt=""
       className="w-full h-auto block"

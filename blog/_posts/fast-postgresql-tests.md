@@ -5,7 +5,7 @@ up your database for lightning fast tests using pytest and testing.postgresql."
 date: "2025-03-30T12:39:07.322Z"
 author:
   name: Siôn Abraham
-  picture: "/assets/blog/authors/sion_small.webp"
+  picture: "/assets/blog/authors/sion_small.jpg"
 tags: 
   - Python
   - SQLAlchemy

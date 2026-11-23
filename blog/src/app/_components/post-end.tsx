@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { type Author } from "@/interfaces/author";
 import { Post } from "@/interfaces/post";
@@ -6,6 +5,7 @@ import { AUTHOR_BIO, SOCIAL_LINKS } from "@/lib/site";
 import { CopyLinkButton } from "./copy-link-button";
 import CoverImage from "./cover-image";
 import { PostMeta } from "./post-meta";
+import Picture from "./picture";
 
 type Props = {
   author: Author;
@@ -55,7 +55,7 @@ export function PostEnd({ author, url, next }: Props) {
       )}
 
       <div className="mt-10 flex items-start gap-4">
-        <Image
+        <Picture
           src={author.picture}
           alt=""
           width={56}

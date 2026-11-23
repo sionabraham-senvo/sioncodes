@@ -30,9 +30,7 @@ export default function Index() {
       <Header condenseOnScroll />
       <main>
         <Container>
-          <h1 className="sr-only">
-            {SITE_NAME} {SITE_DESCRIPTION}
-          </h1>
+          <h1 className="sr-only">{SITE_NAME}</h1>
           <div className="pt-8 md:pt-12" />
           {heroPost ? (
             <HeroPost

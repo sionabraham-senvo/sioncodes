@@ -1,7 +1,7 @@
 {
   "name": "SiônCodes.",
   "short_name": "SiônCodes",
-  "description": "A blog about web development, software, and programming.",
+  "description": "Siôn Abraham writes about backend engineering: Python, PostgreSQL, API design and lessons from building logistics software in Berlin.",
   "start_url": "/",
   "icons": [
     {

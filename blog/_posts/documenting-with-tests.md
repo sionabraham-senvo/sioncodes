@@ -5,7 +5,7 @@ less painful and more effective."
 date: "2025-04-04T11:45:02.677Z"
 author:
   name: Siôn Abraham
-  picture: "/assets/blog/authors/sion_small.webp"
+  picture: "/assets/blog/authors/sion_small.jpg"
 tags: 
   - Python
   - PyTest
