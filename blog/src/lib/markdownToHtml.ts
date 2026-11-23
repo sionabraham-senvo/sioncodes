@@ -159,6 +159,33 @@ function rehypeCodeBlocks() {
     });
 }
 
+/** Makes root-relative links and image sources absolute, since feed readers show posts away from the site. */
+function rehypeAbsoluteUrls({ baseUrl }: { baseUrl: string }) {
+  return (tree: Root) =>
+    walk(tree, (element) => {
+      for (const attribute of ["href", "src"]) {
+        const value = element.properties[attribute];
+        if (typeof value === "string" && value.startsWith("/")) {
+          element.properties[attribute] = new URL(value, baseUrl).href;
+        }
+      }
+    });
+}
+
+/**
+ * Plain HTML of a post for the RSS feed: no highlighting, heading anchors or Copy buttons,
+ * which feed readers either strip or show as clutter.
+ */
+export async function markdownToFeedHtml(markdown: string, baseUrl: string): Promise<string> {
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeAbsoluteUrls, { baseUrl })
+    .use(rehypeStringify)
+    .process(markdown);
+  return String(file);
+}
+
 export default async function markdownToHtml(markdown: string): Promise<{ html: string; headings: Heading[] }> {
   const headings: Heading[] = [];
   const file = await unified()

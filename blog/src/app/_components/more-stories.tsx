@@ -9,7 +9,7 @@ export function MoreStories({ posts }: Props) {
   return (
     <section className="mb-32">
       <h2 className="font-serif text-h1-fluid font-semibold tracking-tight mb-10">
-        More stories<span className="text-primary">.</span>
+        More stories<span className="text-brand">.</span>
       </h2>
       <PostGrid posts={posts} />
     </section>

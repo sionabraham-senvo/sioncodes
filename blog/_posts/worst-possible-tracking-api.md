@@ -9,6 +9,7 @@ author:
   picture: "/assets/blog/authors/sion_small.webp"
 ogImage:
   url: "/assets/blog/worst-possible-tracking-api/cover_big.webp"
+coverFit: contain
 tags:
   - Opinion
   - APIs

@@ -45,13 +45,13 @@
 }
 
 .markdown :global(.callout-tip) {
-  background-color: hsl(var(--secondary) / 0.12);
-  border-left-color: hsl(var(--secondary));
+  background-color: hsl(var(--primary) / 0.12);
+  border-left-color: hsl(var(--primary));
 }
 
 .markdown :global(.callout-warning) {
-  background-color: hsl(var(--primary) / 0.12);
-  border-left-color: hsl(var(--primary));
+  background-color: hsl(var(--secondary) / 0.12);
+  border-left-color: hsl(var(--secondary));
 }
 
 .markdown :global(.callout-heading) {

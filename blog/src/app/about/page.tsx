@@ -1,11 +1,12 @@
 import Container from "@/app/_components/container";
 import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
+import { JsonLd } from "@/app/_components/json-ld";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllTags, tagSlug } from "@/lib/api";
-import { EMAIL, SOCIAL_LINKS } from "@/lib/site";
+import { AUTHOR_NAME, EMAIL, SITE_URL, SOCIAL_LINKS } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
@@ -30,13 +31,23 @@ export default function AboutPage() {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: AUTHOR_NAME,
+          url: `${SITE_URL}/about`,
+          image: `${SITE_URL}/assets/blog/authors/sion_big.webp`,
+          sameAs: SOCIAL_LINKS.map((link) => link.href),
+        }}
+      />
       <Header />
       <main>
         <Container>
           <div className="max-w-5xl mx-auto py-8 md:py-12">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-3">About</p>
             <h1 className="font-serif text-display font-semibold tracking-tighter mb-12">
-              Hello, I&apos;m Siôn<span className="text-primary">.</span>
+              Hello, I&apos;m Siôn<span className="text-brand">.</span>
             </h1>
 
             <div className="grid lg:grid-cols-3 gap-10 items-start">
@@ -44,7 +55,7 @@ export default function AboutPage() {
                 <div className="rounded-2xl overflow-hidden border border-border shadow-sm mb-6">
                   <Image
                     src="/assets/blog/authors/sion_big.webp"
-                    alt="Siôn Abraham"
+                    alt={AUTHOR_NAME}
                     width={500}
                     height={500}
                     className="object-cover w-full h-auto"

@@ -2,10 +2,11 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/api";
 import markdownToHtml from "@/lib/markdownToHtml";
-import { DEFAULT_OG_IMAGE, SITE_LOCALE, SITE_NAME } from "@/lib/site";
+import { DEFAULT_OG_IMAGE, SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
 import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import Footer from "@/app/_components/footer";
+import { JsonLd } from "@/app/_components/json-ld";
 import { PostBody } from "@/app/_components/post-body";
 import { PostEnd } from "@/app/_components/post-end";
 import { PostHeader } from "@/app/_components/post-header";
@@ -36,9 +37,24 @@ export default async function Post(props: Params) {
   const nextPost = allPosts[index + 1] ?? latestPosts[0] ?? null;
   const { html: content, headings } = await markdownToHtml(post.content || "");
   const showContents = headings.length >= MIN_HEADINGS_FOR_CONTENTS;
+  const postUrl = `${SITE_URL}/posts/${post.slug}`;
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.excerpt,
+          datePublished: post.date,
+          image: new URL(post.ogImage?.url || DEFAULT_OG_IMAGE, SITE_URL).href,
+          url: postUrl,
+          mainEntityOfPage: postUrl,
+          keywords: post.tags,
+          author: { "@type": "Person", name: post.author.name, url: `${SITE_URL}/about` },
+        }}
+      />
       <div className="scroll-progress" aria-hidden="true" />
       <Header />
       <main>
@@ -54,6 +70,7 @@ export default async function Post(props: Params) {
               author={post.author}
               excerpt={post.excerpt}
               tags={post.tags}
+              coverFit={post.coverFit}
             />
             {/* Text column capped near 70 characters per line; sidebar keeps a fixed width. */}
             <div className="flex flex-col lg:flex-row lg:justify-between lg:gap-16 mb-24">

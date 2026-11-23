@@ -7,15 +7,20 @@ type MetaProps = {
   className?: string;
 };
 
-/** "4 April 2025 · 6 min read". Kept on one line so the separator never wraps on its own. */
+/**
+ * "4 April 2025 · 6 min read". In a narrow column the reading time drops to a second line;
+ * the separator stays with the date so it never wraps on its own.
+ */
 export function PostMeta({ date, readingTime, className }: MetaProps) {
   return (
-    <p className={cn("text-sm text-muted-foreground tabular-nums whitespace-nowrap", className)}>
-      <DateFormatter dateString={date} />
-      <span aria-hidden className="mx-1.5 opacity-60">
-        ·
+    <p className={cn("flex flex-wrap gap-x-1.5 text-sm text-muted-foreground tabular-nums", className)}>
+      <span className="whitespace-nowrap">
+        <DateFormatter dateString={date} />
+        <span aria-hidden className="ml-1.5 opacity-60">
+          ·
+        </span>
       </span>
-      {readingTime} min read
+      <span className="whitespace-nowrap">{readingTime} min read</span>
     </p>
   );
 }

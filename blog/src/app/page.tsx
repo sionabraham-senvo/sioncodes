@@ -3,9 +3,10 @@ import Container from "@/app/_components/container";
 import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
 import { HeroPost } from "@/app/_components/hero-post";
+import { JsonLd } from "@/app/_components/json-ld";
 import { MoreStories } from "@/app/_components/more-stories";
 import { getAllPosts } from "@/lib/api";
-import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -17,6 +18,15 @@ export default function Index() {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: SITE_NAME,
+          url: SITE_URL,
+          description: SITE_DESCRIPTION,
+        }}
+      />
       <Header condenseOnScroll />
       <main>
         <Container>
@@ -33,6 +43,7 @@ export default function Index() {
               excerpt={heroPost.excerpt}
               readingTime={heroPost.readingTime}
               tags={heroPost.tags}
+              coverFit={heroPost.coverFit}
               verticalLabel={SITE_NAME}
               verticalLabelId="site-hero-mark"
             />

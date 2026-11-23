@@ -44,7 +44,7 @@ export default function WritingPage() {
               {posts.length} {posts.length === 1 ? "article" : "articles"}
             </p>
             <h1 className="font-serif text-display font-semibold tracking-tighter">
-              Writing<span className="text-primary">.</span>
+              Writing<span className="text-brand">.</span>
             </h1>
 
             {tags.length > 0 && (

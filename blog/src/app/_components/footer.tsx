@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="border-t border-border mt-24">
       <div className="container mx-auto px-5 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
         <p>
-          Made with <span className="text-primary">♥</span> in Berlin
+          Made with <span className="text-brand">♥</span> in Berlin
         </p>
         <nav aria-label="Elsewhere">
           <ul className="flex items-center gap-5">

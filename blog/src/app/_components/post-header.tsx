@@ -3,6 +3,7 @@ import CoverImage from "./cover-image";
 import { PostMeta } from "./post-meta";
 import { PostTitle } from "@/app/_components/post-title";
 import { type Author } from "@/interfaces/author";
+import { type CoverFit } from "@/interfaces/post";
 import { tagSlug } from "@/lib/api";
 import Link from "next/link";
 
@@ -14,13 +15,14 @@ type Props = {
   author: Author;
   excerpt: string;
   tags?: string[];
+  coverFit?: CoverFit;
 };
 
 /**
  * Text first, so the article starts on the first screen: title, excerpt and byline on the
  * left with the cover beside them on large screens, and the cover below them on phones.
  */
-export function PostHeader({ title, coverImage, date, readingTime, author, excerpt, tags }: Props) {
+export function PostHeader({ title, coverImage, date, readingTime, author, excerpt, tags, coverFit }: Props) {
   return (
     <header className="mb-12 md:mb-16 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-center lg:gap-14">
       <div className="min-w-0">
@@ -46,7 +48,7 @@ export function PostHeader({ title, coverImage, date, readingTime, author, excer
       </div>
       {coverImage && (
         <div className="relative overflow-hidden rounded-2xl border border-border shadow-sm aspect-[2/1] lg:aspect-[4/3]">
-          <CoverImage src={coverImage} priority fill />
+          <CoverImage src={coverImage} priority fill fit={coverFit} />
         </div>
       )}
     </header>

@@ -5,12 +5,14 @@ export const SITE_LOCALE = "en_GB";
 export const DEFAULT_OG_IMAGE = "/assets/blog/documenting-with-tests/cover_big.webp";
 
 /** Page background colours from globals.css, used for the browser's theme-color. */
-export const THEME_COLORS = { light: "#f9ebd7", dark: "#171412" } as const;
+export const THEME_COLORS = { light: "#f6f7f3", dark: "#0f1512" } as const;
 
 export const SOCIAL_LINKS = [
   { label: "GitHub", href: "https://github.com/sionabraham-senvo" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/sionabraham/" },
 ] as const;
+
+export const AUTHOR_NAME = "Siôn Abraham";
 
 export const EMAIL = "sionabraham95@gmail.com";
 

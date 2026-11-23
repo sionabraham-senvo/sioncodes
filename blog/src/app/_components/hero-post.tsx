@@ -1,6 +1,7 @@
 import CoverImage from "@/app/_components/cover-image";
 import Link from "next/link";
 import { PostMeta, TagChips } from "./post-meta";
+import { type CoverFit } from "@/interfaces/post";
 
 type Props = {
   title: string;
@@ -10,6 +11,7 @@ type Props = {
   slug: string;
   readingTime: number;
   tags?: string[];
+  coverFit?: CoverFit;
   /** Small label above the title, e.g. "Featured" on the home page or "Latest in Python" on a tag page. */
   label?: string;
   /**
@@ -29,6 +31,7 @@ export function HeroPost({
   slug,
   readingTime,
   tags,
+  coverFit,
   label = "Featured",
   verticalLabel,
   verticalLabelId,
@@ -62,7 +65,7 @@ export function HeroPost({
                      xl:text-[length:min(6.5rem,calc(509px/var(--label-ems)))]"
         >
           {labelBody}
-          {labelEndsWithDot && <span className="text-primary">.</span>}
+          {labelEndsWithDot && <span className="text-brand">.</span>}
         </div>
       )}
       <Link
@@ -71,7 +74,14 @@ export function HeroPost({
       >
         <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
           <div className="relative aspect-[4/3] sm:aspect-[2/1] lg:aspect-[21/9] transition-transform duration-500 group-hover:scale-[1.02]">
-            <CoverImage src={coverImage} priority fill />
+            {/* An uncropped cover stops above the card that overlaps the bottom of the frame. */}
+            <CoverImage
+              src={coverImage}
+              priority
+              fill
+              fit={coverFit}
+              className="pt-3 pb-[4.75rem] md:pt-4 md:pb-28"
+            />
           </div>
         </div>
         <div className="relative z-10 -mt-16 md:-mt-24 mx-4 md:mx-10 rounded-xl bg-card border border-border shadow-lg px-6 md:px-10 pt-6 md:pt-8 pb-6 md:pb-10 group-hover:shadow-xl transition-shadow duration-300">

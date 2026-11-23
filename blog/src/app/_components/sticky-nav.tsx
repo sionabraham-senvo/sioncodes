@@ -22,7 +22,7 @@ const renderBrand = (text: string) => {
   return (
     <>
       {body}
-      {dotted && <span className="text-primary">.</span>}
+      {dotted && <span className="text-brand">.</span>}
     </>
   );
 };
@@ -54,13 +54,14 @@ export default function StickyNav({
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 supports-[backdrop-filter]:bg-background/85 backdrop-blur-md transition-colors">
-      <div className="container mx-auto px-5 h-14 md:h-16 flex items-center gap-3">
+      {/* Gaps, brand and menu padding tighten below 400px so the theme toggle stays on screen at 320px. */}
+      <div className="container mx-auto px-5 h-14 md:h-16 flex items-center gap-2 min-[400px]:gap-3">
         {showBrand &&
           (hasSwap ? (
             <Link
               href="/"
               aria-label="SiônCodes home"
-              className="relative font-serif text-xl md:text-2xl font-semibold tracking-tight hover:text-primary transition-colors"
+              className="relative font-serif text-lg min-[400px]:text-xl md:text-2xl font-semibold tracking-tight hover:text-primary transition-colors"
             >
               <span
                 className={`inline-block transition-opacity duration-300 ${
@@ -82,7 +83,7 @@ export default function StickyNav({
             <Link
               href="/"
               aria-label="SiônCodes home"
-              className={`font-serif text-xl md:text-2xl font-semibold tracking-tight hover:text-primary transition-all duration-300 ${
+              className={`font-serif text-lg min-[400px]:text-xl md:text-2xl font-semibold tracking-tight hover:text-primary transition-all duration-300 ${
                 revealHidden
                   ? "opacity-0 -translate-x-2 pointer-events-none"
                   : "opacity-100 translate-x-0"
@@ -91,7 +92,7 @@ export default function StickyNav({
               {renderBrand(brandText)}
             </Link>
           ))}
-        <div className="ml-auto flex items-center gap-3">
+        <div className="ml-auto flex items-center gap-2 min-[400px]:gap-3">
           <MenuBar />
           <ThemeToggle />
         </div>

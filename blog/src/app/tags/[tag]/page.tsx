@@ -45,7 +45,7 @@ export default async function TagPage({ params }: TagPageProps) {
             {/* Visible on mobile; on desktop the large vertical label next to the hero shows the tag. */}
             <h1 className="font-serif text-h1-fluid font-semibold tracking-tight md:sr-only">
               {tag}
-              <span className="text-primary">.</span>
+              <span className="text-brand">.</span>
             </h1>
           </div>
           {firstPost && (
@@ -57,6 +57,7 @@ export default async function TagPage({ params }: TagPageProps) {
               excerpt={firstPost.excerpt}
               readingTime={firstPost.readingTime}
               tags={firstPost.tags}
+              coverFit={firstPost.coverFit}
               label={`Latest in ${tag}`}
               verticalLabel={label}
               verticalLabelId="site-hero-mark"

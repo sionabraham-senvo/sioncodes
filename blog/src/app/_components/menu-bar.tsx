@@ -14,7 +14,7 @@ export default function MenuBar() {
 
   return (
     <nav aria-label="Main">
-      <ul className="flex items-center gap-1 rounded-full border border-border bg-card/60 backdrop-blur-md px-2 py-1.5">
+      <ul className="flex items-center gap-1 rounded-full border border-border bg-card/60 backdrop-blur-md px-1 min-[400px]:px-2 py-1.5">
         {LINKS.map((link) => {
           const current = pathname === link.href;
           return (
@@ -23,7 +23,7 @@ export default function MenuBar() {
                 href={link.href}
                 aria-current={current ? "page" : undefined}
                 className={cn(
-                  "inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-colors",
+                  "inline-flex items-center px-2.5 min-[400px]:px-3 py-1.5 rounded-full text-sm font-medium transition-colors",
                   current
                     ? "text-foreground bg-muted/50"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
