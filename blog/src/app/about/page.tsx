@@ -1,33 +1,70 @@
 import Container from "@/app/_components/container";
+import DateFormatter from "@/app/_components/date-formatter";
 import Footer from "@/app/_components/footer";
 import Header from "@/app/_components/header";
 import { JsonLd } from "@/app/_components/json-ld";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllTags, tagSlug } from "@/lib/api";
+import { getAllPosts, getAllTags, tagSlug } from "@/lib/api";
 import { AUTHOR_NAME, EMAIL, SITE_URL, SOCIAL_LINKS } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Siôn Abraham is a backend engineer writing about Python, PostgreSQL, FastAPI and building better software.",
+    "Siôn Abraham is a backend engineer in Berlin writing about Python, PostgreSQL, API design and building better software.",
   alternates: { canonical: "/about" },
 };
 
-const connectLinks = [...SOCIAL_LINKS, { label: "Email", href: `mailto:${EMAIL}` }];
 const linkedIn = SOCIAL_LINKS.find((link) => link.label === "LinkedIn");
+const gitHub = SOCIAL_LINKS.find((link) => link.label === "GitHub");
 
-const skills = [
-  "Python", "PostgreSQL", "MongoDB", "DocumentDB", "SQLAlchemy", "FastAPI", "Docker", "Kubernetes", "S3", "RDS", "Sentry", "AWS", "Hetzner"
-];
+/** Everyday tools first, then the ones around them. Any that are also a tag link to their posts. */
+const mainTools = ["Python", "PostgreSQL", "SQLAlchemy", "FastAPI"];
+const otherTools = ["Docker", "Kubernetes", "AWS (S3, RDS, DocumentDB)", "Hetzner", "MongoDB", "Sentry"];
 
-const skillClass =
-  "inline-flex items-center px-3 py-1 rounded-full border border-border bg-card text-sm text-foreground";
+/** How many recent posts the Writing row lists before pointing to the full list. */
+const RECENT_POSTS = 3;
+
+const linkClass =
+  "text-primary underline underline-offset-[3px] decoration-primary/40 hover:decoration-primary transition-colors";
+
+function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+      {children}
+    </a>
+  );
+}
+
+/** One line of the page: a short heading in the left column, prose on the right. Stacks on phones. */
+function Row({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <section className="grid gap-x-10 gap-y-3 border-t border-border py-8 md:py-10 sm:grid-cols-[9rem_minmax(0,1fr)]">
+      <h2 className="text-sm font-medium text-muted-foreground sm:pt-1.5">{label}</h2>
+      <div className="space-y-4 font-serif text-lg leading-relaxed text-foreground/90">{children}</div>
+    </section>
+  );
+}
 
 export default function AboutPage() {
-  // Skills that are also tags link to their posts.
-  const tagSlugs = new Set(getAllTags().map(tagSlug));
+  const posts = getAllPosts();
+  const tagSlugs = new Set(getAllTags(posts).map(tagSlug));
+
+  /** "Python, PostgreSQL and FastAPI", with each tool that is also a tag linked to its posts. */
+  const toolList = (tools: string[]) =>
+    tools.map((tool, index) => (
+      <span key={tool}>
+        {index > 0 && (index === tools.length - 1 ? " and " : ", ")}
+        {tagSlugs.has(tagSlug(tool)) ? (
+          <Link href={`/tags/${tagSlug(tool)}`} className={linkClass}>
+            {tool}
+          </Link>
+        ) : (
+          tool
+        )}
+      </span>
+    ));
 
   return (
     <>
@@ -44,131 +81,118 @@ export default function AboutPage() {
       <Header />
       <main>
         <Container>
-          <div className="max-w-5xl mx-auto py-8 md:py-12">
-            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-3">About</p>
-            <h1 className="font-serif text-display font-semibold tracking-tighter mb-12">
-              Hello, I&apos;m Siôn<span className="text-brand">.</span>
-            </h1>
-
-            <div className="grid lg:grid-cols-3 gap-10 items-start">
-              <aside className="lg:col-span-1">
-                <div className="rounded-2xl overflow-hidden border border-border shadow-sm mb-6">
-                  <Image
-                    src="/assets/blog/authors/sion_big.webp"
-                    alt={AUTHOR_NAME}
-                    width={500}
-                    height={500}
-                    className="object-cover w-full h-auto"
-                  />
-                </div>
-
-                <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                  <h2 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
-                    Connect
-                  </h2>
-                  <ul className="space-y-2">
-                    {connectLinks.map((link) => {
-                      const isExternal = link.href.startsWith("http");
-                      return (
-                        <li key={link.label}>
-                          <a
-                            href={link.href}
-                            {...(isExternal && { target: "_blank", rel: "noopener noreferrer" })}
-                            className="flex items-center justify-between text-sm font-medium text-foreground hover:text-primary transition-colors group"
-                          >
-                            <span>{link.label}</span>
-                            <span aria-hidden className="text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all">
-                              →
-                            </span>
-                          </a>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </aside>
-
-              <article className="lg:col-span-2 space-y-8">
-                <div className="font-serif text-lg md:text-xl leading-relaxed text-foreground space-y-5">
-                  <p>
-                    I&apos;m a software engineer with a decade of experience building scalable applications,
-                    specializing in backend development with Python, PostgreSQL, and FastAPI.
-                  </p>
-                  <blockquote className="border-l-4 border-primary pl-5 italic text-muted-foreground">
-                    Great software isn&apos;t just about code, it&apos;s about creating elegant
-                    solutions to complex problems.
-                  </blockquote>
-                  <p>
-                    My work centers on clean architecture, design patterns, and performance.
-                    I enjoy challenges from RESTful API design to efficient database solutions
-                    with PostgreSQL and SQLAlchemy.
-                  </p>
-                  <p>
-                    This blog is where I share insights, tutorials, and lessons from the trenches.
-                    I aim to demystify complex topics and help developers build better software, one post at a time.
-                  </p>
-                  <p>
-                    Off-screen, you&apos;ll find me with my family, drinking coffee, or exploring the outdoors. Talk
-                    to me about books, games, and software!
-                  </p>
-                </div>
-
-                <div className="pt-8 border-t border-border">
-                  <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
-                    Skills &amp; expertise
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {skills.map((skill) =>
-                      tagSlugs.has(tagSlug(skill)) ? (
-                        <Link
-                          key={skill}
-                          href={`/tags/${tagSlug(skill)}`}
-                          className={`${skillClass} hover:border-primary hover:text-primary transition-colors`}
-                        >
-                          {skill}
-                          <span aria-hidden className="ml-1.5 text-muted-foreground">
-                            →
-                          </span>
-                        </Link>
-                      ) : (
-                        <span key={skill} className={skillClass}>
-                          {skill}
-                        </span>
-                      ),
-                    )}
-                  </div>
-                </div>
-
-                <div className="pt-8 border-t border-border">
-                  <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
-                    Business inquiries
-                  </h3>
-                  <p className="text-base text-foreground/90">
-                    For consulting, freelance work or collaborations, message me on{" "}
-                    <a
-                      href={linkedIn?.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary underline underline-offset-2 hover:opacity-80"
-                    >
-                      LinkedIn
-                    </a>
-                    . I&apos;m always open to new opportunities and connections in the software development world.
-                  </p>
-                </div>
-                <div className="pt-8 border-t border-border">
-                  <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
-                    Disclaimer
-                  </h3>
-                  <p className="text-base text-foreground/90">
-                    The views expressed on this blog are my own and do not necessarily reflect the views of any
-                    employer or organization I am affiliated with. This website was generated partially using AI tools,
-                    and the posts reflect my personal insights and experiences in software development. I&apos;m
-                    crappy with grammar and spelling, so I do use AI and spellcheckers to help with that.
-                  </p>
-                </div>
-              </article>
+          <div className="max-w-4xl mx-auto py-8 md:py-12">
+            {/*
+              Phones: greeting with a small portrait beside it, introduction underneath.
+              From md up: a larger portrait beside both, with the text sitting on its bottom edge.
+            */}
+            <div className="grid grid-cols-[minmax(0,1fr)_auto] md:grid-rows-[1fr_auto] items-end gap-x-6 md:gap-x-12 mb-12 md:mb-16">
+              <div className="min-w-0">
+                <h1 className="font-serif text-display font-semibold tracking-tighter">
+                  Hello, I&apos;m Siôn<span className="text-brand">.</span>
+                </h1>
+                <p className="mt-3 text-sm text-muted-foreground">Said like &ldquo;Shawn&rdquo;.</p>
+              </div>
+              <div className="w-20 sm:w-28 md:w-60 md:row-span-2 overflow-hidden rounded-xl md:rounded-2xl border border-border shadow-sm">
+                <Image
+                  src="/assets/blog/authors/sion_big.webp"
+                  alt="Illustration of Siôn sitting outside a café"
+                  width={1024}
+                  height={1536}
+                  priority
+                  className="block w-full h-auto"
+                />
+              </div>
+              <p className="col-span-2 md:col-span-1 mt-8 font-serif text-2xl md:text-[1.75rem] leading-snug tracking-tight text-foreground">
+                I&apos;m a backend engineer in Berlin. For about a decade I&apos;ve built the parts of software
+                nobody sees: the APIs, the databases and the plumbing between them.
+              </p>
             </div>
+
+            <Row label="Work">
+              <p>
+                I work at <ExternalLink href="https://www.senvo.ai/">Senvo</ExternalLink>, where we audit parcel
+                carrier invoices and recover overcharges and refunds for shippers. My part is the plumbing: turning
+                inconsistent tracking data from hundreds of carriers into shipment records you can rely on.
+              </p>
+              <p>
+                What I care about is clean architecture, sensible design patterns and software that stays fast,
+                whether that&apos;s the shape of an API or the way a database is put to work.
+              </p>
+            </Row>
+
+            <Row label="Writing">
+              <p>
+                This blog is where I write up what the work teaches me: lessons from the trenches, the odd tutorial,
+                and opinions I&apos;ve usually earned the hard way.
+              </p>
+              {posts.length > 0 && (
+                <ul>
+                  {posts.slice(0, RECENT_POSTS).map((post) => (
+                    <li key={post.slug} className="border-t border-border first:border-t-0">
+                      <Link href={`/posts/${post.slug}`} className="group block py-3">
+                        <span className="block font-semibold leading-snug tracking-tight group-hover:text-primary transition-colors">
+                          {post.title}
+                        </span>
+                        <span className="mt-1 block font-sans text-sm text-muted-foreground tabular-nums">
+                          <DateFormatter dateString={post.date} />, {post.readingTime} min read
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {posts.length > RECENT_POSTS && (
+                <p>
+                  <Link href="/writing" className={linkClass}>
+                    Everything I&apos;ve written
+                  </Link>
+                </p>
+              )}
+            </Row>
+
+            <Row label="Tools">
+              <p>
+                Most days it&apos;s {toolList(mainTools)}. Around them: {toolList(otherTools)}.
+              </p>
+            </Row>
+
+            <Row label="Away from the keyboard">
+              <p>
+                You&apos;ll find me with my family, drinking coffee, or somewhere outdoors. Talk to me about books,
+                games and software.
+              </p>
+            </Row>
+
+            <Row label="Get in touch">
+              <p>
+                <a href={`mailto:${EMAIL}`} className={linkClass}>
+                  Email me
+                </a>{" "}
+                about anything you&apos;ve read here.
+                {linkedIn && (
+                  <>
+                    {" "}
+                    For consulting, freelance work or collaborations, message me on{" "}
+                    <ExternalLink href={linkedIn.href}>LinkedIn</ExternalLink>.
+                  </>
+                )}
+                {gitHub && (
+                  <>
+                    {" "}
+                    The code from my posts is on <ExternalLink href={gitHub.href}>GitHub</ExternalLink>.
+                  </>
+                )}
+              </p>
+            </Row>
+
+            <Row label="Small print">
+              <p className="font-sans text-base text-muted-foreground">
+                The views here are my own and not those of any employer or organisation I&apos;m affiliated with.
+                This website was built partly with AI tools. The posts are my own insights and experience, but
+                I&apos;m crappy with grammar and spelling, so I use AI and spellcheckers to help with that.
+              </p>
+            </Row>
           </div>
         </Container>
       </main>

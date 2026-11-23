@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/api";
 import markdownToHtml from "@/lib/markdownToHtml";
-import { DEFAULT_OG_IMAGE, SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
+import { CONTENT_LICENSE, DEFAULT_OG_IMAGE, SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
 import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import Footer from "@/app/_components/footer";
@@ -52,6 +52,7 @@ export default async function Post(props: Params) {
           url: postUrl,
           mainEntityOfPage: postUrl,
           keywords: post.tags,
+          license: CONTENT_LICENSE.url,
           author: { "@type": "Person", name: post.author.name, url: `${SITE_URL}/about` },
         }}
       />

@@ -14,6 +14,14 @@ export const SOCIAL_LINKS = [
 
 export const AUTHOR_NAME = "Siôn Abraham";
 
+export const REPO_URL = "https://github.com/sionabraham-senvo/sioncodes";
+
+/** Covers the text of the posts. Code is MIT (LICENSE in the repo); images are not licensed for reuse. */
+export const CONTENT_LICENSE = {
+  name: "CC BY-NC 4.0",
+  url: "https://creativecommons.org/licenses/by-nc/4.0/",
+} as const;
+
 export const EMAIL = "sionabraham95@gmail.com";
 
 /** Follows "Written by Siôn Abraham," at the end of each post. */

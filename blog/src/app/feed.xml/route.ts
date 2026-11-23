@@ -1,6 +1,6 @@
 import { getAllPosts } from "@/lib/api";
 import { markdownToFeedHtml } from "@/lib/markdownToHtml";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { AUTHOR_NAME, CONTENT_LICENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -43,6 +43,7 @@ export async function GET() {
     <link>${SITE_URL}</link>
     <description>${escapeXml(SITE_DESCRIPTION)}</description>
     <language>en</language>
+    <copyright>${escapeXml(`© ${AUTHOR_NAME}. Text licensed ${CONTENT_LICENSE.name}: ${CONTENT_LICENSE.url}`)}</copyright>
     <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml" />
 ${items.join("\n")}
   </channel>
