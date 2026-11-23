@@ -2,14 +2,10 @@
 title: "Documenting Your Application's Business Logic via Tests"
 excerpt: "Documentation. The word strikes a sense of melancholy in everyone. This post explores how tests can make this process
 less painful and more effective."
-coverImage: "/assets/blog/documenting-with-tests/cover_small.webp"
-thumbnailImage: "/assets/blog/documenting-with-tests/cover_thumbnail.webp"
 date: "2025-04-04T11:45:02.677Z"
 author:
   name: Siôn Abraham
   picture: "/assets/blog/authors/sion_small.webp"
-ogImage:
-  url: "/assets/blog/documenting-with-tests/cover_big.webp"
 tags: 
   - Python
   - PyTest

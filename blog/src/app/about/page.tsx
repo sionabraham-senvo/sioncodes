@@ -96,9 +96,9 @@ export default function AboutPage() {
               <div className="w-20 sm:w-28 md:w-60 md:row-span-2 overflow-hidden rounded-xl md:rounded-2xl border border-border shadow-sm">
                 <Image
                   src="/assets/blog/authors/sion_big.webp"
-                  alt="Illustration of Siôn sitting outside a café"
-                  width={1024}
-                  height={1536}
+                  alt="Siôn on a sofa, hugging a dog"
+                  width={1200}
+                  height={1600}
                   priority
                   className="block w-full h-auto"
                 />

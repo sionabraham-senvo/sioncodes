@@ -13,8 +13,8 @@ export default function NotFound() {
           <div className="flex flex-col items-center justify-center text-center min-h-[60vh] py-12">
             <div className="relative w-40 h-40 md:w-56 md:h-56 mb-8">
               <Image
-                src="/assets/blog/authors/sion_walking.webp"
-                alt="Sion walking"
+                src="/assets/blog/not-found.webp"
+                alt="A dog sniffing at the camera"
                 fill
                 style={{ objectFit: "contain" }}
                 priority

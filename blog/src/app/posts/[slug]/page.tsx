@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/api";
 import markdownToHtml from "@/lib/markdownToHtml";
-import { CONTENT_LICENSE, DEFAULT_OG_IMAGE, SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
+import { CONTENT_LICENSE, SITE_LOCALE, SITE_NAME, SITE_URL, postOgImage } from "@/lib/site";
 import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import Footer from "@/app/_components/footer";
@@ -48,7 +48,7 @@ export default async function Post(props: Params) {
           headline: post.title,
           description: post.excerpt,
           datePublished: post.date,
-          image: new URL(post.ogImage?.url || DEFAULT_OG_IMAGE, SITE_URL).href,
+          image: new URL(post.ogImage?.url || postOgImage(post.slug), SITE_URL).href,
           url: postUrl,
           mainEntityOfPage: postUrl,
           keywords: post.tags,
@@ -77,7 +77,7 @@ export default async function Post(props: Params) {
             <div className="flex flex-col lg:flex-row lg:justify-between lg:gap-16 mb-24">
               <div className="min-w-0 flex-1 lg:max-w-[42rem]">
                 <PostBody content={content} />
-                <PostEnd author={post.author} next={nextPost} />
+                <PostEnd author={post.author} url={postUrl} next={nextPost} />
               </div>
               {/* Scrolls on its own if the contents list and latest posts are taller than the window. */}
               <aside className="lg:w-64 shrink-0 mt-12 lg:mt-0 lg:sticky lg:top-24 self-start z-0 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto space-y-6">
@@ -103,7 +103,7 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
   if (!post) notFound();
 
   const url = `/posts/${post.slug}`;
-  const image = post.ogImage?.url || DEFAULT_OG_IMAGE;
+  const image = post.ogImage?.url || postOgImage(post.slug);
 
   return {
     title: post.title,

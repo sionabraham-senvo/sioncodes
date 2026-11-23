@@ -24,7 +24,17 @@ export function SidebarLatestPosts({ posts, limit = 5 }: Props) {
                 href={`/posts/${post.slug}`}
                 className="group flex items-center gap-3"
               >
-                <div className="flex-shrink-0 overflow-hidden rounded-md border border-border w-14 h-14 bg-muted/40">
+                <div
+                  className={`flex-shrink-0 overflow-hidden rounded-md w-14 h-14 ${
+                    thumbnailSrc ? "border border-border bg-muted/40" : "cover-field flex items-center justify-center"
+                  }`}
+                >
+                  {/* No cover: a green tile with the title's first letter keeps the list aligned. */}
+                  {!thumbnailSrc && (
+                    <span aria-hidden className="font-serif text-2xl font-semibold leading-none">
+                      {post.title.trim().charAt(0).toUpperCase()}
+                    </span>
+                  )}
                   {thumbnailSrc && (
                     <Image
                       src={thumbnailSrc}

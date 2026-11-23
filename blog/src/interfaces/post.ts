@@ -7,11 +7,13 @@ export type Post = {
   slug: string;
   title: string;
   date: string;
-  coverImage: string;
-  thumbnailImage: string;
+  /** Square cover for cards. A post with no cover fields at all is shown type-only. */
+  coverImage?: string;
+  thumbnailImage?: string;
   author: Author;
   excerpt: string;
-  ogImage: {
+  /** Wide 3:2 cover for the hero, the post header and link previews. */
+  ogImage?: {
     url: string;
   };
   /** Set to "contain" when cropping would cut something that matters, such as a caption. */

@@ -4,7 +4,8 @@ import { PostMeta, TagChips } from "./post-meta";
 
 type Props = {
   title: string;
-  coverImage: string;
+  /** Leave out for a post with no cover: the whole card becomes a green panel. */
+  coverImage?: string;
   date: string;
   excerpt: string;
   slug: string;
@@ -23,6 +24,10 @@ export function PostPreview({
   tags,
   layout = "card",
 }: Props) {
+  if (!coverImage) {
+    return <PostField {...{ title, date, excerpt, slug, readingTime, tags }} wide={layout === "row"} />;
+  }
+
   if (layout === "row") {
     return <PostRow {...{ title, coverImage, date, excerpt, slug, readingTime, tags }} />;
   }
@@ -53,8 +58,52 @@ export function PostPreview({
   );
 }
 
+/**
+ * A post with no cover: one green panel with the text sitting at the bottom. In a grid it
+ * stretches to the height of the cards beside it.
+ */
+function PostField({
+  title,
+  date,
+  excerpt,
+  slug,
+  readingTime,
+  tags,
+  wide,
+}: Omit<Props, "layout" | "coverImage"> & { wide: boolean }) {
+  return (
+    <Link
+      href={`/posts/${slug}`}
+      className={`cover-field group flex h-full flex-col justify-end rounded-2xl shadow-sm transition-transform duration-300 hover:-translate-y-1 ${
+        wide ? "min-h-[18rem] px-6 py-8 md:px-12 md:py-12" : "min-h-[20rem] px-6 py-7"
+      }`}
+    >
+      <h3
+        className={`font-serif font-semibold leading-[1.1] tracking-tight text-balance underline-offset-[0.12em] decoration-2 group-hover:underline ${
+          wide ? "text-3xl md:text-5xl max-w-4xl" : "text-2xl md:text-3xl"
+        }`}
+      >
+        {title}
+      </h3>
+      <p className="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed line-clamp-3 max-w-3xl">
+        {excerpt}
+      </p>
+      <PostMeta date={date} readingTime={readingTime} className="mt-5" />
+      <TagChips tags={tags} className="mt-3" />
+    </Link>
+  );
+}
+
 /** Wide variant used while there are only one or two posts to show: image left, card overlapping right. */
-function PostRow({ title, coverImage, date, excerpt, slug, readingTime, tags }: Omit<Props, "layout">) {
+function PostRow({
+  title,
+  coverImage,
+  date,
+  excerpt,
+  slug,
+  readingTime,
+  tags,
+}: Omit<Props, "layout" | "coverImage"> & { coverImage: string }) {
   return (
     <Link
       href={`/posts/${slug}`}

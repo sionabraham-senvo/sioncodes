@@ -3,33 +3,47 @@ import Link from "next/link";
 import { type Author } from "@/interfaces/author";
 import { Post } from "@/interfaces/post";
 import { AUTHOR_BIO, SOCIAL_LINKS } from "@/lib/site";
+import { CopyLinkButton } from "./copy-link-button";
 import CoverImage from "./cover-image";
 import { PostMeta } from "./post-meta";
 
 type Props = {
   author: Author;
+  /** Full address of this post, for the Copy link button. */
+  url: string;
   /** The post to suggest next, or null when there is no other post. */
   next: Post | null;
 };
 
 const linkedIn = SOCIAL_LINKS.find((link) => link.label === "LinkedIn");
 
-/** Shown after the last paragraph: one post to read next, a short author note and ways to follow along. */
-export function PostEnd({ author, next }: Props) {
+/**
+ * Shown after the last paragraph: a way to share the post, one post to read next, a short
+ * author note and ways to follow along.
+ */
+export function PostEnd({ author, url, next }: Props) {
+  // A post with no cover is suggested as text only.
+  const nextCover = next?.ogImage?.url || next?.coverImage;
+
   return (
     <section aria-label="After the article" className="mt-16 pt-10 border-t border-border">
+      <CopyLinkButton url={url} />
       {next && (
         <>
-          <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mt-10 mb-4">
             Read next
           </h2>
           <Link
             href={`/posts/${next.slug}`}
-            className="group grid grid-cols-[6rem_minmax(0,1fr)] sm:grid-cols-[9rem_minmax(0,1fr)] items-center gap-4 sm:gap-5 rounded-xl border border-border bg-card p-3 sm:p-4 shadow-sm hover:border-primary transition-colors"
+            className={`group grid items-center gap-4 sm:gap-5 rounded-xl border border-border bg-card p-3 sm:p-4 shadow-sm hover:border-primary transition-colors ${
+              nextCover ? "grid-cols-[6rem_minmax(0,1fr)] sm:grid-cols-[9rem_minmax(0,1fr)]" : "sm:px-5"
+            }`}
           >
-            <div className="relative aspect-[3/2] overflow-hidden rounded-lg">
-              <CoverImage src={next.ogImage?.url || next.coverImage} fill />
-            </div>
+            {nextCover && (
+              <div className="relative aspect-[3/2] overflow-hidden rounded-lg">
+                <CoverImage src={nextCover} fill />
+              </div>
+            )}
             <div className="min-w-0">
               <p className="font-serif text-lg sm:text-xl font-semibold leading-snug tracking-tight text-card-foreground group-hover:text-primary transition-colors">
                 {next.title}

@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: DEFAULT_OG_IMAGE,
-        alt: "Discovering the world of web development and programming",
+        alt: SITE_NAME,
       },
     ],
     locale: SITE_LOCALE,

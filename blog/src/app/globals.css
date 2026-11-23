@@ -96,6 +96,30 @@
 }
 
 @layer components {
+  /*
+   * The green panel that stands in for a cover on posts without one. Colour tokens are
+   * re-pointed inside it, so titles, meta lines and tag chips keep their contrast without
+   * each component needing an "on green" variant.
+   */
+  .cover-field {
+    --field: 153 68% 22%;
+    --foreground: 75 20% 96%;
+    --card-foreground: 75 20% 96%;
+    --muted-foreground: 120 20% 82%;
+    --border: 150 30% 42%;
+    --primary: 75 20% 96%;
+    background-color: hsl(var(--field));
+    color: hsl(var(--foreground));
+  }
+  .dark .cover-field {
+    --field: 152 45% 16%;
+    --foreground: 120 14% 91%;
+    --card-foreground: 120 14% 91%;
+    --muted-foreground: 135 12% 70%;
+    --border: 150 25% 30%;
+    --primary: 120 14% 91%;
+  }
+
   /* Scroll-progress bar (progressive enhancement; ignored on browsers without scroll-timeline) */
   .scroll-progress {
     position: fixed;

@@ -51,7 +51,7 @@ export default async function TagPage({ params }: TagPageProps) {
           {firstPost && (
             <HeroPost
               title={firstPost.title}
-              coverImage={firstPost.ogImage.url}
+              coverImage={firstPost.ogImage?.url || firstPost.coverImage}
               date={firstPost.date}
               slug={firstPost.slug}
               excerpt={firstPost.excerpt}

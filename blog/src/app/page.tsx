@@ -37,7 +37,7 @@ export default function Index() {
           {heroPost ? (
             <HeroPost
               title={heroPost.title}
-              coverImage={heroPost.ogImage.url}
+              coverImage={heroPost.ogImage?.url || heroPost.coverImage}
               date={heroPost.date}
               slug={heroPost.slug}
               excerpt={heroPost.excerpt}

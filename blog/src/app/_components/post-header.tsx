@@ -9,7 +9,7 @@ import Link from "next/link";
 
 type Props = {
   title: string;
-  coverImage: string;
+  coverImage?: string;
   date: string;
   readingTime: number;
   author: Author;
@@ -24,7 +24,14 @@ type Props = {
  */
 export function PostHeader({ title, coverImage, date, readingTime, author, excerpt, tags, coverFit }: Props) {
   return (
-    <header className="mb-12 md:mb-16 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-center lg:gap-14">
+    <header
+      className={
+        coverImage
+          ? "mb-12 md:mb-16 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-center lg:gap-14"
+          : // No cover: the title gets the full width.
+            "mb-12 md:mb-16 max-w-4xl"
+      }
+    >
       <div className="min-w-0">
         {tags && tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-6">

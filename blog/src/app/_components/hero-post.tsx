@@ -5,7 +5,8 @@ import { type CoverFit } from "@/interfaces/post";
 
 type Props = {
   title: string;
-  coverImage: string;
+  /** Leave out for a post with no cover: the hero becomes a green panel with the title set large. */
+  coverImage?: string;
   date: string;
   excerpt: string;
   slug: string;
@@ -68,38 +69,59 @@ export function HeroPost({
           {labelEndsWithDot && <span className="text-brand">.</span>}
         </div>
       )}
-      <Link
-        href={`/posts/${slug}`}
-        className="group flex flex-col relative z-10"
-      >
-        <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
-          <div className="relative aspect-[4/3] sm:aspect-[2/1] lg:aspect-[21/9] transition-transform duration-500 group-hover:scale-[1.02]">
-            {/* An uncropped cover stops above the card that overlaps the bottom of the frame. */}
-            <CoverImage
-              src={coverImage}
-              priority
-              fill
-              fit={coverFit}
-              className="pt-3 pb-[4.75rem] md:pt-4 md:pb-28"
-            />
-          </div>
-        </div>
-        <div className="relative z-10 -mt-16 md:-mt-24 mx-4 md:mx-10 rounded-xl bg-card border border-border shadow-lg px-6 md:px-10 pt-6 md:pt-8 pb-6 md:pb-10 group-hover:shadow-xl transition-shadow duration-300">
-          <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
+      {!coverImage && (
+        // As tall as the cover would have been from md up, so the vertical wordmark still fits beside it.
+        <Link
+          href={`/posts/${slug}`}
+          className="cover-field group relative z-10 flex flex-col justify-end rounded-2xl shadow-sm min-h-[20rem] md:min-h-[348px] lg:min-h-[405px] xl:min-h-[509px] px-6 py-8 md:px-12 md:py-12"
+        >
+          <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground mb-4">
             <span className="h-px w-6 bg-primary" /> {label}
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-card-foreground group-hover:text-primary transition-colors">
+          <h2 className="font-serif font-semibold leading-[1.04] tracking-tight text-balance max-w-5xl text-4xl md:text-6xl xl:text-7xl underline-offset-[0.12em] decoration-2 group-hover:underline">
             {title}
           </h2>
-          <p className="mt-4 text-base md:text-lg leading-relaxed text-muted-foreground max-w-3xl">
-            {excerpt}
-          </p>
+          <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground max-w-3xl">{excerpt}</p>
           <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
             <PostMeta date={date} readingTime={readingTime} />
             <TagChips tags={tags} />
           </div>
-        </div>
-      </Link>
+        </Link>
+      )}
+      {coverImage && (
+        <Link
+          href={`/posts/${slug}`}
+          className="group flex flex-col relative z-10"
+        >
+          <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+            <div className="relative aspect-[4/3] sm:aspect-[2/1] lg:aspect-[21/9] transition-transform duration-500 group-hover:scale-[1.02]">
+              {/* An uncropped cover stops above the card that overlaps the bottom of the frame. */}
+              <CoverImage
+                src={coverImage}
+                priority
+                fill
+                fit={coverFit}
+                className="pt-3 pb-[4.75rem] md:pt-4 md:pb-28"
+              />
+            </div>
+          </div>
+          <div className="relative z-10 -mt-16 md:-mt-24 mx-4 md:mx-10 rounded-xl bg-card border border-border shadow-lg px-6 md:px-10 pt-6 md:pt-8 pb-6 md:pb-10 group-hover:shadow-xl transition-shadow duration-300">
+            <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
+              <span className="h-px w-6 bg-primary" /> {label}
+            </span>
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-card-foreground group-hover:text-primary transition-colors">
+              {title}
+            </h2>
+            <p className="mt-4 text-base md:text-lg leading-relaxed text-muted-foreground max-w-3xl">
+              {excerpt}
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
+              <PostMeta date={date} readingTime={readingTime} />
+              <TagChips tags={tags} />
+            </div>
+          </div>
+        </Link>
+      )}
     </section>
   );
 }
